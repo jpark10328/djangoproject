@@ -12,6 +12,7 @@ class Hotel(models.Model):
     city = models.CharField(max_length=50,verbose_name="시")
     address_1 = models.TextField(verbose_name="도로명주소")
     address_2 = models.TextField(verbose_name="상세주소")
+    himage = models.ImageField(blank=True, null=True)
     # 추천
     voter = models.ManyToManyField(User, related_name='voter_hotel')
 

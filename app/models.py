@@ -13,6 +13,8 @@ class Hotel(models.Model):
     address_1 = models.TextField(verbose_name="도로명주소")
     address_2 = models.TextField(verbose_name="상세주소")
     himage = models.ImageField(blank=True, null=True)
+    hphone = models.CharField(verbose_name ="전화번호",max_length=50)
+    hmail = models.EmailField(verbose_name ="문의 이메일", null=True)
     # 추천
     voter = models.ManyToManyField(User, related_name='voter_hotel')
 
@@ -25,8 +27,6 @@ class Room(models.Model):
     roomcap = models.SmallIntegerField(verbose_name="정원")
     rcontent = models.TextField(verbose_name="방 정보")
     roomprice = models.IntegerField(verbose_name="가격")
-    hphone = models.CharField(verbose_name ="전화번호",max_length=50)
-    hmail = models.EmailField(verbose_name ="문의 이메일")
 
     def __str__(self) -> str:
         return self.hotel + self.roomnum

@@ -53,6 +53,14 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "app",
+    "user",
+
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.kakao',
+    'allauth.socialaccount.providers.google',
 ]
 
 MIDDLEWARE = [
@@ -141,3 +149,55 @@ MEDIA_URL = "/media/"
 LOGIN_REDIRECT_URL = "/"
 # 로그아웃 이후에 가야할 곳
 LOGOUT_REDIRECT_URL = "/"
+
+# User를 장고가 제공해주는 부분을 사용하지 않기 때문에 설정 필요
+AUTH_USER_MODEL = 'user.User'
+
+
+# 이메일 서버 설정
+DEFAULT_FROM_EMAIL = "본인의 네이버 이메일 주소"
+EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
+EMAIL_USE_TLS = False
+EMAIL_USE_SSL = True
+EMAIL_HOST = "smtp.naver.com"
+EMAIL_HOST_USER = "본인의 네이버 아이디"
+EMAIL_HOST_PASSWORD = "본인의 네이버 비밀번호"
+EMAIL_PORT = 465
+
+
+# allauth 추가설정
+secret_file = os.path.join(BASE_DIR, 'google_secret.json')
+with open(secret_file) as f:
+    social_google = json.loads(f.read())
+
+def get_social(setting, social_google=social_google):
+    try:
+        return social_google[setting]
+    except KeyError:
+        error_msg = "set the {0} environment variable".format(setting)
+        raise ImproperlyConfigured(error_msg)
+
+
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SOCIALACCOUNT_PROVIDERS = {
+    'google':{
+        'APP':{
+            'client_id':get_social("client_id"),
+            'secret':get_social("client_secret"),
+        },
+        'SCOPE':[
+            'profile',
+            'email',
+        ],
+        'AUTH_PARAMS':{
+            'access_type':'offline',
+        }
+    }
+}
+
+SOCIALACCOUNT_LOGIN_ON_GET = True
+SITE_ID = 1

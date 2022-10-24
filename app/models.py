@@ -7,7 +7,6 @@ class Hotel(models.Model):
     owner = models.ForeignKey(User,verbose_name="사업자", on_delete=models.CASCADE)
     hname = models.CharField(max_length=200,verbose_name="숙소명")
     hfeature = models.TextField(verbose_name="숙소 특징")
-    hcontent = models.TextField(verbose_name="상세 안내")
     province = models.CharField(max_length=50,verbose_name="도")
     city = models.CharField(max_length=50,verbose_name="시")
     address_1 = models.TextField(verbose_name="도로명주소")
@@ -18,7 +17,7 @@ class Hotel(models.Model):
     hinfo = models.TextField(verbose_name="숙소 안내", null=True)
     hmap = models.TextField(verbose_name="숙소 지도", null=True)
     # 추천
-    voter = models.ManyToManyField(User, related_name='voter_hotel')
+    voter = models.ManyToManyField(User, related_name='voter_hotel', null=True)
 
     def __str__(self) -> str:
         return self.hname

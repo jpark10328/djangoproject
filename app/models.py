@@ -25,12 +25,13 @@ class Hotel(models.Model):
 class Room(models.Model):
     hotel = models.ForeignKey(Hotel, on_delete = models.CASCADE,verbose_name="숙소")
     roomnum = models.IntegerField(verbose_name="방번호")
+    roomtype = models.CharField(max_length=200,verbose_name="방종류", null=True)
     roomcap = models.SmallIntegerField(verbose_name="정원")
     rcontent = models.TextField(verbose_name="방 정보")
     roomprice = models.IntegerField(verbose_name="가격")
 
     def __str__(self) -> str:
-        return self.hotel + self.roomnum
+        return self.hotel + self.roomtype + self.roomnum
 
 
 class Comment(models.Model):

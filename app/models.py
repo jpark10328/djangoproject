@@ -15,6 +15,8 @@ class Hotel(models.Model):
     himage = models.ImageField(blank=True, null=True)
     hphone = models.CharField(verbose_name ="전화번호",max_length=50)
     hmail = models.EmailField(verbose_name ="문의 이메일", null=True)
+    hinfo = models.TextField(verbose_name="숙소 안내", null=True)
+    hmap = models.TextField(verbose_name="숙소 지도", null=True)
     # 추천
     voter = models.ManyToManyField(User, related_name='voter_hotel')
 
@@ -35,6 +37,7 @@ class Room(models.Model):
 class Comment(models.Model):
     author = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name="작성자")
     content = models.TextField(verbose_name="댓글 내용")
+    score = models.SmallIntegerField(verbose_name="리뷰 점수", null=True)
     created_at = models.DateTimeField(auto_now_add=True,verbose_name="작성날짜")  
     modified_at = models.DateTimeField(auto_now=True,verbose_name="수정날짜")
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE,null=True, blank=True, verbose_name="숙소")

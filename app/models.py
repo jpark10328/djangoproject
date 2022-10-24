@@ -7,7 +7,6 @@ class Hotel(models.Model):
     owner = models.ForeignKey(User,verbose_name="사업자", on_delete=models.CASCADE)
     hname = models.CharField(max_length=200,verbose_name="숙소명")
     hfeature = models.TextField(verbose_name="숙소 특징")
-    hcontent = models.TextField(verbose_name="상세 안내")
     province = models.CharField(max_length=50,verbose_name="도")
     city = models.CharField(max_length=50,verbose_name="시")
     address_1 = models.TextField(verbose_name="도로명주소")

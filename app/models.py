@@ -18,7 +18,7 @@ class Hotel(models.Model):
     hinfo = models.TextField(verbose_name="숙소 안내", null=True)
     hmap = models.TextField(verbose_name="숙소 지도", null=True)
     # 추천
-    voter = models.ManyToManyField(User, related_name='voter_hotel')
+    voter = models.ManyToManyField(User, related_name='voter_hotel', null=True)
 
     def __str__(self) -> str:
         return self.hname

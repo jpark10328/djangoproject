@@ -19,7 +19,7 @@ def user_register(request):
             user.set_password(user_form.cleaned_data['password'])
             #최종저장
             user.save()
-            return render(request, "registration/login.html", {"user":user})
+            return render(request, "user/login.html", {"user":user})
 
 
 

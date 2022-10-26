@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Hotel
+from .models import Hotel, Room, Order, Comment
 
 
 class HotelForm(forms.ModelForm):
@@ -12,7 +12,7 @@ class HotelForm(forms.ModelForm):
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
-        fields = ['roomnum', 'roomcap', 'rcontent', 'roomprice']
+        fields = ['roomnum','rimage', 'images', 'roomcap', 'rcontent', 'roomprice']
 
 
 class OrderForm(forms.ModelForm):

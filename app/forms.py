@@ -6,13 +6,13 @@ from .models import Hotel, Room, Order, Comment
 class HotelForm(forms.ModelForm):
     class Meta:
         model = Hotel
-        fields = ['hname', 'hfeature', 'hcontent', 'province', 'city', 'address_1', 'address_2', 'hphone', 'hmail']
+        fields = ['hname', 'hfeature', 'hinfo', 'province', 'city', 'address_1', 'address_2', 'hphone', 'hmail']
 
 
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
-        fields = ['roomnum','rimage', 'images', 'roomcap', 'rcontent', 'roomprice']
+        fields = ['roomnum','rimage', 'roomcap', 'rcontent', 'roomprice']
 
 
 class OrderForm(forms.ModelForm):

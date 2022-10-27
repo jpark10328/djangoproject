@@ -151,8 +151,159 @@
         {% endautoescape %}
       </div>
       <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-        숙소리뷰1<br>숙소리뷰2<br>숙소리뷰3
+
+        <!--댓글 영역-->
+        <div class="card">
+          <div class="card-header comment-header">
+            <i class="fas fa-comments"></i>
+            <span class="small">
+              리뷰
+            </span>
+          </div>
+
+          <!--댓글 목록 반복될 부분-->
+          {% if hotel.comment_set.count > 0 %}
+            {% for comment in hotel.comment_set.all %}
+              <div class="card-body">
+                <div class="card-title">{{comment.content}}</div>
+                <div class="d-flex justify-content-end p-2 bg-light">
+                  <div>{{comment.author.email}}</div>
+                  <div>({{comment.created_at}})</div>
+                  <span>
+                    {% if comment.created_at < comment.modified_at %}
+                      (수정:{{comment.modified_at}})
+                    {% endif %}
+                  </span>
+                  <a href="{{comment.id}}" class="btn-outline-primary modify">수정</a>
+                  <a href="#" class="btn-outline-danger delete" data-uri="{% url 'comment_delete' comment.id %}">삭제</a>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- 에러메세지 출력 -->
+        <div class="row mx-auto mt-5">
+          {% if messages %}
+            <div class="alert alert-danger">
+              {% for msg in messages %}
+                <strong>{{msg}}</strong>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- 댓글입력 -->
+        <div class="col-12 mt-5">
+          <form method="post" action="{% url 'comment_create' %}">
+            {% csrf_token %}
+            <input type="hidden" name="hotel_id" value="{{hotel.id}}">
+            <input type="hidden" name="modify_comment_id" id="modify_comment_id" value="">
+
+            <div class="form-group">
+              <textarea name="content" id="content" rows="7" class="form-control"></textarea>
+            </div>
+
+            {% if user.is_authenticated %}
+              <div class="form-group mt-2">
+                <button type="submit" class="btn btn-primary">댓글등록</button>
+              </div>
+            {% endif %}
+
+          </form>
+        </div>
       </div>
     </div>
-  </div>
-{% endblock content %}
+  {% endblock content %}
+
+  {% block script %}
+    <script>
+      $(function () {
+
+        // 부트스트랩 클릭 코드
+        const pageAccessedByReload = (PerformanceNavigationTiming && PerformanceNavigationTiming.TYPE === 1) || window
+          .performance
+          .getEntriesByType("navigation")
+          .map((nav) => nav.type)
+          .includes("reload");
+
+        if (pageAccessedByReload == true) {
+          //실행 코드
+          var contact = document.querySelector('#contact-tab');
+          contact.click();
+
+        }
+
+        $(".btn-outline-danger, .delete").on("click", function () {
+          if (confirm("정말로 삭제하시겠습니까?")) {
+            // data-uri 에 있는 값 가져온 후 location.href 이용해서 이동
+            console.log($(this).data("uri"));
+            location.href = $(this).data("uri");
+          }
+        });
+        $(".modify").on("click", function (e) {
+          e.preventDefault();
+
+          // comment id 가져오기
+          let comment_id = $(this).attr("href");
+          console.log(comment_id);
+
+          // comment_id 에 해당하는 comment 가져오기
+          $.ajax({
+            url: '/app/comment/modify/' + comment_id + "/",
+            success: function (response) {
+              console.log(response);
+
+              $("#content").val(response.content);
+              $("#modify_comment_id").val(response.id);
+              $(".btn-primary").html("댓글수정");
+            }
+          })
+        })
+
+        $(".btn-primary").on("click", function (e) {
+          e.preventDefault();
+
+          let text = $(this).html();
+
+          if (text === "댓글수정") {
+            // comment id 가져오기
+            let form = $(this).closest("form");
+
+            let comment_id = $(form)
+              .find("#modify_comment_id")
+              .val();
+            let hotel_id = $(form)
+              .find("[name='hotel_id']")
+              .val();
+            let content = $(form)
+              .find("#content")
+              .val();
+
+            data = {
+              csrfmiddlewaretoken: "{{csrf_token}}",
+              comment_id: comment_id,
+              hotel_id: hotel_id,
+              content: content
+            }
+
+            console.log(data);
+
+            // comment_id 에 해당하는 comment 가져오기
+            $.ajax({
+              url: '/app/comment/modify/' + comment_id + "/",
+              type: 'post',
+              data: data,
+              success: function (response) {
+                console.log(response);
+                $(content).val("");
+                location.reload();
+              }
+            })
+          }
+
+        })
+
+      })
+    </script>
+  {% endblock script %}

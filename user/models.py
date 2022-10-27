@@ -1,5 +1,5 @@
 from django.db import models
-from django.contrib.auth.models import BaseUserManager, AbstractBaseUser, PermissionsMixin
+from django.contrib.auth.models import BaseUserManager, AbstractBaseUser,PermissionsMixin
 
 # userid 를 장고가 사용하는 username 을 사용하지 않고 이메일로 변경
 class UserManager(BaseUserManager):
@@ -10,7 +10,7 @@ class UserManager(BaseUserManager):
         if not email:
             raise ValueError("The given email must be set")
         email = self.normalize_email(email)
-        username = self.model.normalize_username(username)
+        # username = self.model.normalize_username(username)
         user = self.model(email=email, nickname=nickname, username=username, rank=rank, phone=phone, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
@@ -32,7 +32,7 @@ class UserManager(BaseUserManager):
 
         return self._create_user(email, "관리자", password, phone, **extra_fields)
 
-class User(AbstractBaseUser, PermissionsMixin):
+class User(AbstractBaseUser,PermissionsMixin):
 
     RANK_CHOICES = [
         (0,'회원'),
@@ -54,3 +54,11 @@ class User(AbstractBaseUser, PermissionsMixin):
     def __str__(self) -> str:
         return "<%d %s>" % (self.pk, self.email)
 
+
+    # def has_perm(self, perm, obj=None):
+    #     return True
+
+
+    # def has_module_perms(self, app_label):
+    #     return True
+    

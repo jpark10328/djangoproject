@@ -85,7 +85,9 @@ class Order(models.Model):
 
 
     def __str__(self) -> str:
-        return self.customer + self.cumstomer.pk
+        return self.customer + self.cumstomer.pk + str(self.visit_at)
+
+    
 
 
     

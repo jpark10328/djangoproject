@@ -4,13 +4,13 @@ from .models import User
 
 class RegisterForm(forms.ModelForm):
 
-    password = forms.CharField(label="password", widget=forms.PasswordInput)
-    confirm_password = forms.CharField(label="confirm_password", widget=forms.PasswordInput)
+    password = forms.CharField(label="비밀번호", widget=forms.PasswordInput)
+    confirm_password = forms.CharField(label="비밀번호 확인", widget=forms.PasswordInput)
 
 
     class Meta:
         model = User
-        fields = ['username','first_name','last_name','gender','email']
+        fields = ['username','nickname','rank','email','phone']
 
     # clean() : 유효성 검증
     # clean_필드명() : 지정된 필드에 대한 유효성 검증

@@ -220,13 +220,19 @@
     <script>
       $(function () {
 
-        $("body").on("load", function () {
+        // 부트스트랩 클릭 코드
+        const pageAccessedByReload = (PerformanceNavigationTiming && PerformanceNavigationTiming.TYPE === 1) || window
+          .performance
+          .getEntriesByType("navigation")
+          .map((nav) => nav.type)
+          .includes("reload");
+
+        if (pageAccessedByReload == true) {
+          //실행 코드
           var contact = document.querySelector('#contact-tab');
-          bootstrap
-            .Tab
-            .getInstance(contact)
-            .show();
-        })
+          contact.click();
+
+        }
 
         $(".btn-outline-danger, .delete").on("click", function () {
           if (confirm("정말로 삭제하시겠습니까?")) {
@@ -292,12 +298,6 @@
                 console.log(response);
                 $(content).val("");
                 location.reload();
-                // 부트스트랩 클릭 코드
-                var contact = document.querySelector('#contact-tab');
-                bootstrap
-                  .Tab
-                  .getInstance(contact)
-                  .show();
               }
             })
           }

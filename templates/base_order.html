@@ -40,7 +40,7 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg fixed-top navbar-light">
       <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="{% url 'index' %}">현수넷</a>
+        <img src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3e %3cg fill='none' fill-rule='evenodd'%3e %3cg fill='black'%3e %3cpath d='M17.51 3.87L15.73 2.1 5.84 12 15.74 21.9 17.51 20.13 9.38 12z' transform='translate(-20 -12) translate(20 12)'/%3e %3c/g%3e %3c/g%3e%3c/svg%3e" data-testid="back-button" draggable="false" class="navbar-brand" onclick="history.go(-1)">
         <button
           class="navbar-toggler"
           type="button"
@@ -90,19 +90,6 @@
         </div>
       </div>
     </nav>
-    <!-- Page Header-->
-    <header class="masthead" style="background-image: url({% static 'img/jeju_bg.jpg' %})">
-      <div class="container position-relative px-4 px-lg-5">
-        <div class="row gx-4 gx-lg-5 justify-content-center">
-          <div class="col-md-10 col-lg-8 col-xl-7">
-            <div class="site-heading">
-              <h1>{% block title %}현수넷{% endblock title %}</h1>
-              <span class="subheading"></span>
-            </div>
-          </div>
-        </div>
-      </div>
-    </header>
     {% block content %}{% endblock content %}
     <!-- Footer-->
     <footer class="border-top">

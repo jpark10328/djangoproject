@@ -1,40 +1,21 @@
-{% extends 'base.html' %}
-{% include 'home.html' %}
+{% extends 'base_order.html' %}
 {% load static %}
 {% block style %}
-  <style></style>
+  <style>
+    .card {
+      margin-top: 90px;
+    }
+
+    .card-header {
+      background-color: #BCBCBC;
+    }
+
+    .card-footer {
+      background-color: #BCBCBC;
+    }
+  </style>
 {% endblock style %}
 {% block content %}
-  <nav class="navbar fixed-top navbar-expand-lg navbar-light" id="mainNav">
-    <div class="container px-4 px-lg-5">
-      <img src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3e %3cg fill='none' fill-rule='evenodd'%3e %3cg fill='black'%3e %3cpath d='M17.51 3.87L15.73 2.1 5.84 12 15.74 21.9 17.51 20.13 9.38 12z' transform='translate(-20 -12) translate(20 12)'/%3e %3c/g%3e %3c/g%3e%3c/svg%3e" data-testid="back-button" draggable="false" class="navbar-brand" onclick="history.go(-1)">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
-        Menu
-        <i class="fas fa-bars"></i>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarResponsive">
-        <ul class="navbar-nav ms-auto py-4 py-lg-0">
-          <li class="nav-item">
-            <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'index' %}">홈</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link px-lg-3 py-3 py-lg-4" href=""></a>
-          </li>
-          <li class="nav-item">
-            <!-- 현재 로그인 사용자 : request.user -->
-            {% if not request.user.is_authenticated %}
-              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'user:login' %}">로그인</a>
-            {% else %}
-              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'user:logout' %}">로그아웃</a>
-            {% endif %}
-          </li>
-          <li class="nav-item">
-            <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'user:user_register' %}">회원가입</a>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </nav>
   <div class="card text-center">
     <div class="card-header">
       예약

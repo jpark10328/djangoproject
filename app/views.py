@@ -41,14 +41,26 @@ def hotel_detail(request,pk):
 @login_required(login_url="login")
 def order(request, pk):
 
-    order = Order.objects.get(id=pk)
+    room = Room.objects.get(id=pk)
 
-    return render(request, "order.html",{"order":order})
+    if request.method == "POST":
+
+        visit_at = request.POST.get('checkin')
+        leave_at = request.POST.get('checkout')
+        room = room
+        customer = request.user
+
+        order = Order.objects.create(visit_at=visit_at,leave_at=leave_at,room=room,customer=customer)        
+        
+        return redirect("order_result")
+    
+
+    return render(request, "order.html",{"room":room})
 
 @login_required(login_url="login")
-def hotel_order(request):
+def order_result(request):
 
-    order = Order.objects.filter(customer=request.user)
+    orders = Order.objects.filter(customer=request.user)
 
     # if request.method == "POST":
     #     form = OrderForm(request.POST, request.FILES)
@@ -63,7 +75,8 @@ def hotel_order(request):
     # else:
     #     form = OrderForm()
 
-    return render(request, "order.html",{"order":order})
+
+    return render(request, "app/order_result.html",{"orders":orders})
 
 @require_POST
 @login_required(redirect_field_name="next")
@@ -135,6 +148,7 @@ def hotel_search(request):
     # 사용자가 입력한 입실/퇴실 날짜 가져오기
     checkin = request.GET.get('checkin',timezone.now())
     checkout = request.GET.get('checkout',timezone.now())
+    roomcap = request.GET.get('roomcap','1')
     print(checkin)
     print(checkout)
     print("&*&*&*")
@@ -186,7 +200,7 @@ def hotel_search(request):
     hotel_ids=hotel_lists.values_list('id',flat=True)
     print(hotel_ids)
     # roomcap 이 맞는 room_id 추출
-    room_ids = Room.objects.filter(hotel__id__in=list(hotel_ids)).filter(roomcap__gte = 2).values_list('id',flat=True)
+    room_ids = Room.objects.filter(hotel__id__in=list(hotel_ids)).filter(roomcap__gte = roomcap).values_list('id',flat=True)
     print("room_ids")
     print(room_ids)
 
@@ -196,18 +210,16 @@ def hotel_search(request):
         order_ids = Order.objects.filter(room__id__in=list(room_ids)).values_list('room',flat=True).filter(
             Q(visit_at__gte = checkin) &
             Q(leave_at__lte = checkout)
-        )
+        )   
     
 
     print("order_ids")
     print(order_ids)
 
-    rooms = Room.objects.filter(hotel__id__in=list(hotel_ids)).filter(roomcap__gte = 2).exclude(id__in=list(order_ids))
+    rooms = Room.objects.filter(hotel__id__in=list(hotel_ids)).filter(roomcap__gte = roomcap).exclude(id__in=list(order_ids))
 
     for room in rooms:
-        available = room.hotel
-    print("okrooms")
-    print(rooms)
+        print(room)
 
     # for room in rooms:
     #     room_list =[
@@ -221,12 +233,7 @@ def hotel_search(request):
     #             "hotel_hinfo":room.hotel.hinfo       
     #         }
     #     ]
-    #     print(room_list)
-
-
-
-    
-    
+    #     print(room_list)  
 
 
     # 전체 목록 안에서 사용자가 요청한 페이지에 대한 목록만 전송

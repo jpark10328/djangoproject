@@ -16,21 +16,31 @@
   </style>
 {% endblock style %}
 {% block content %}
-  <div class="card text-center">
-    <div class="card-header">
-      예약
+  <div class="container mt-5">
+    <div class="row mt-4"></div>
+    <div class="row mt-5">
+      <img src="/media/{{room.rimage}}" class="img-fluid w-50" alt="...">
+
+      <div class="col">
+        <h1>{{room.roomtype}}</h1>
+        <h2>{{room.hotel.hname}}</h2>
+        <p class="address">{{room.hotels.province}}
+          {{room.hotel.city}}
+          {{room.hotel.address_1}}
+          {{room.hotel.address_2}}</p>
+        <p>{{room.hotel.hinfo}}</p>
+        <form action="" method="post">
+          {% csrf_token %}
+          <div class="col-10 input-group">
+            <input type="date" class="form-control checkin" name="checkin" value="{{chekin|default_if_none:''}}">
+            <input type="date" class="form-control checkout" name="checkout" value="{{chekout|default_if_none:''}}">
+            <input type="hidden" name="roomid" value="{{room.id}}">
+            <div class="input-group-append">
+              <button type="submit" class="btn btn-outline-secondary" id="btn_order">예약하기</button>
+            </div>
+          </div>
+        </form>
+      </div>
     </div>
-    <div class="card-body">
-      <h5 class="card-title">{{order.room.roomtype}}
-      </h5>
-      <img src="/media/{{order.room.rimage}}" class="img-fluid w-50" alt="...">
-      <p class="card-text">{{order.room.rcontent|linebreaks}}</p>
-    </div>
-    <div class="card-body">
-      <a href="#" class="btn btn-primary">Go somewhere</a>
-    </div>
-    <div class="card-footer text-muted">
-      2 days ago
-    </div>
-  </div>
-{% endblock content %}
+
+  {% endblock content %}

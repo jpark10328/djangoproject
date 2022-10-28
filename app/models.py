@@ -76,6 +76,9 @@ class Comment(models.Model):
     modified_at = models.DateTimeField(auto_now=True,verbose_name="수정날짜")
     hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE,null=True, blank=True, verbose_name="숙소")
 
+    def __str__(self) -> str:
+        return str(self.hotel)
+
 class Order(models.Model):
     customer = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name="예약자")
     ordered_at = models.DateTimeField(auto_now_add=True,verbose_name="결제날짜")
@@ -86,6 +89,22 @@ class Order(models.Model):
 
     def __str__(self) -> str:
         return str(self.customer.pk) + str(self.visit_at)
+
+class Checkbox(models.Model):
+
+    hotel = models.ForeignKey(Hotel, on_delete=models.CASCADE, verbose_name="숙소")
+    family = models.BooleanField(default=False, verbose_name="가족객실")
+    wifi = models.BooleanField(default=False, verbose_name="전구역 WIFI")
+    parking = models.BooleanField(default=False, verbose_name="무료주차")
+    fitness = models.BooleanField(default=False, verbose_name="피트니스 센터")
+    nosmoking = models.BooleanField(default=False, verbose_name="금연 객실")
+    breakfast = models.BooleanField(default=False, verbose_name="조식")
+
+    def __str__(self) -> str:
+        return str(self.hotel)
+
+
+
 
     
 

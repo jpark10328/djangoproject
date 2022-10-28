@@ -131,8 +131,6 @@ USE_TZ = True
 
 GOOGLE_MAPS_API_KEY = "AIzaSyDZb0lsQ-HxfDrr3oJTJ4YcP3R4VKlFYCU"
 
-KAKAO_MAPS_API_KEY = "f8864ade76aa16f51b21ff52a0bf337f"
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 

@@ -1,0 +1,36 @@
+{% extends 'base_order.html' %}
+{% load static %}
+{% block style %}
+  <style>
+    .card {
+      margin-top: 90px;
+    }
+
+    .card-header {
+      background-color: #BCBCBC;
+    }
+
+    .card-footer {
+      background-color: #BCBCBC;
+    }
+  </style>
+{% endblock style %}
+{% block content %}
+  <div class="card text-center">
+    <div class="card-header">
+      예약
+    </div>
+    <div class="card-body">
+      <h5 class="card-title">{{order.room.roomtype}}
+      </h5>
+      <img src="/media/{{order.room.rimage}}" class="img-fluid w-50" alt="...">
+      <p class="card-text">{{order.room.rcontent|linebreaks}}</p>
+    </div>
+    <div class="card-body">
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+    <div class="card-footer text-muted">
+      2 days ago
+    </div>
+  </div>
+{% endblock content %}

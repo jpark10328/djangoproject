@@ -1,69 +1,71 @@
-{% extends 'base.html' %} {% block content %}
-<div class="container">
-  <div class="row mt-5">
-    <img
-      src="https://cf.bstatic.com/xdata/images/hotel/270x200/284594285.webp?k=64cddc7bee5fefe65dce82ec06495095c75297b64278acc2409a0d7429fb6ca3&o="
-      class="rounded float-left"
-      alt="..."
-    />
-    <div class="card w-75">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          With supporting text below as a natural lead-in to additional content.
-        </p>
-        <a href="#" class="btn btn-primary">Button</a>
-      </div>
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+  <style>
+    summary {
+      cursor: pointer;
+    }
+
+    summary {
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .box {
+      margin: 5px auto;
+    }
+
+    .content {
+      width: 800px;
+      font-size: 17px;
+      px padding: 5px;
+      border: 1px solid #ddd;
+    }
+
+    .col-md-4 {
+      width: 350px;
+    }
+  </style>
+{% endblock style %}
+{% block content %}
+  <div class="container">
+    <div class="row mt-5">
+      {% for hotel in hotels %}
+        <div class="card mb-3" style="max-width: 1500px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <a href="{% url 'hotel_detail' hotel.pk %}"><img src="/media/{{hotel.himage}}" class="img-fluid rounded-start" alt="..."></a>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h3 class="card-title">
+                  <a href="{% url 'hotel_detail' hotel.pk %}">{{hotel.hname}}</a>
+                </h3>
+                <small class="card-text">
+                  <svg class="bk-icon -iconset-geo_pin" height="20" role="presentation" width="20" viewbox="0 0 128 128" aria-hidden="true" focusable="false">
+                    <path d="M98.5 42.5a34.5 34.5 0 1 0-64.3 17.2L64 120l29.8-60.3a34.2 34.2 0 0 0 4.7-17.2zM64 59.7a17.2 17.2 0 1 1 17-17 17.2 17.2 0 0 1-17 17z"></path>
+                  </svg>
+                  {{hotel.province}}
+                  {{hotel.city}}
+                  {{hotel.address_1}}
+                  {{hotel.address_2}}</small>
+                <div class="box">
+                  <div class="content">
+                    {{hotel.hinfo|linebreaks}}
+                  </div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <a href="{% url 'hotel_detail' hotel.pk %}" class="btn btn-primary float-right">예약하기</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
     </div>
   </div>
-  <div class="row mt-3">
-    <img
-      src="https://cf.bstatic.com/xdata/images/hotel/270x200/284594285.webp?k=64cddc7bee5fefe65dce82ec06495095c75297b64278acc2409a0d7429fb6ca3&o="
-      class="rounded float-left"
-      alt="..."
-    />
-    <div class="card w-75">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          With supporting text below as a natural lead-in to additional content.
-        </p>
-        <a href="#" class="btn btn-primary">Button</a>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-3">
-    <img
-      src="https://cf.bstatic.com/xdata/images/hotel/270x200/284594285.webp?k=64cddc7bee5fefe65dce82ec06495095c75297b64278acc2409a0d7429fb6ca3&o="
-      class="rounded float-left"
-      alt="..."
-    />
-    <div class="card w-75">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          With supporting text below as a natural lead-in to additional content.
-        </p>
-        <a href="#" class="btn btn-primary">Button</a>
-      </div>
-    </div>
-  </div>
-  <div class="row mt-3">
-    <img
-      src="https://cf.bstatic.com/xdata/images/hotel/270x200/284594285.webp?k=64cddc7bee5fefe65dce82ec06495095c75297b64278acc2409a0d7429fb6ca3&o="
-      class="rounded float-left"
-      alt="..."
-    />
-    <div class="card w-75">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">
-          With supporting text below as a natural lead-in to additional content.
-        </p>
-        <a href="#" class="btn btn-primary">Button</a>
-      </div>
-    </div>
-  </div>
-</div>
 
 {% endblock content %}

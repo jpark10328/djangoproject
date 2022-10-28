@@ -1,18 +1,18 @@
 from django import forms
 
-from .models import Hotel
+from .models import Hotel, Room, Order, Comment, Checkbox
 
 
 class HotelForm(forms.ModelForm):
     class Meta:
         model = Hotel
-        fields = ['hname', 'hfeature', 'hcontent', 'province', 'city', 'address_1', 'address_2', 'hphone', 'hmail']
+        fields = ['hname', 'hfeature', 'hinfo', 'province', 'city', 'address_1', 'address_2', 'hphone', 'hmail']
 
 
 class RoomForm(forms.ModelForm):
     class Meta:
         model = Room
-        fields = ['roomnum', 'roomcap', 'rcontent', 'roomprice']
+        fields = ['roomnum','rimage', 'roomcap', 'rcontent', 'roomprice']
 
 
 class OrderForm(forms.ModelForm):
@@ -26,3 +26,8 @@ class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
         fields = ['content']
+
+class CheckboxForm(forms.ModelForm):
+    class Metal:
+        model = Checkbox
+        fields = ['family','wifi','parking','fitness','nosmoking','breakfast']

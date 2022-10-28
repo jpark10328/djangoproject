@@ -82,8 +82,8 @@ class Comment(models.Model):
 class Order(models.Model):
     customer = models.ForeignKey(User,on_delete=models.CASCADE,verbose_name="예약자")
     ordered_at = models.DateTimeField(auto_now_add=True,verbose_name="결제날짜")
-    visit_at = models.DateTimeField(verbose_name="입실날짜")
-    leave_at = models.DateTimeField(verbose_name="퇴실날짜")
+    visit_at = models.DateField(verbose_name="입실날짜")
+    leave_at = models.DateField(verbose_name="퇴실날짜")
     room = models.ForeignKey(Room, on_delete=models.CASCADE,verbose_name="주문객실")
 
 

@@ -43,6 +43,14 @@
     </div>
     <div class="col-10 input-group">
       <input type="text" class="form-control keyword" value="{{keyword|default_if_none:''}}">
+      <select class="form-control roomcap">
+        <option value="1">1명</option>
+        <option value="2">2명</option>
+        <option value="3">3명</option>
+        <option value="4">4명</option>
+        <option value="5">5명</option>
+        <option value="5">6명+</option>
+      </select>
       <input type="date" class="form-control checkin" value="{{chekin|default_if_none:''}}">
       <input type="date" class="form-control checkout" value="{{chekout|default_if_none:''}}">
       <div class="input-group-append">
@@ -120,6 +128,9 @@
     <input type="hidden" name="keyword" value="{{keyword|default_if_none:''}}" id="keyword">
     <input type="hidden" name="page" value="{{page}}" id="page">
     <input type="hidden" name="so" value="{{so}}" id="so">
+    <input type="hidden" name="checkin" value="{{checkin}}" id="checkin">
+    <input type="hidden" name="checkout" value="{{checkout}}" id="checkout">
+    <input type="hidden" name="roomcap" value="{{roomcap}}" id="roomcap">
     </form>
   </div>
 
@@ -153,6 +164,10 @@
       $("#btn_search").on('click', function () {
         // 사용자가 입력한 검색어를 가져온 후 searchForm keyword 태그의 value안에 삽입
         $("#keyword").val($(".keyword").val());
+        $("#checkin").val($(".checkin").val());
+        $("#checkout").val($(".checkout").val());
+        $("#roomcap").val($(".roomcap").val());
+
 
         // searchForm page 태그의 value을 1로 변경
         $("#page").val(1);

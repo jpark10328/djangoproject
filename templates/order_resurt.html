@@ -1,10 +1,14 @@
 {% extends 'base.html' %}
+{% include 'home.html' %}
 {% load static %}
+{% block style %}
+  <style></style>
+{% endblock style %}
 {% block content %}
   <!-- Navigation-->
   <nav class="navbar fixed-top navbar-expand-lg navbar-light" id="mainNav">
     <div class="container px-4 px-lg-5">
-      <a class="navbar-brand" href="{% url 'index' %}">현수넷</a>
+      <img src="data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3e %3cg fill='none' fill-rule='evenodd'%3e %3cg fill='black'%3e %3cpath d='M17.51 3.87L15.73 2.1 5.84 12 15.74 21.9 17.51 20.13 9.38 12z' transform='translate(-20 -12) translate(20 12)'/%3e %3c/g%3e %3c/g%3e%3c/svg%3e" data-testid="back-button" draggable="false" class="navbar-brand" onclick="history.go(-1)">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
         Menu
         <i class="fas fa-bars"></i>
@@ -32,32 +36,17 @@
       </div>
     </div>
   </nav>
-  <!-- Page Header-->
-  <header class="masthead" style="background-image: url({% static 'img/jeju_bg.jpg' %})">
-    <div class="container position-relative px-4 px-lg-5">
-      <div class="row gx-4 gx-lg-5 justify-content-center">
-        <div class="col-md-10 col-lg-8 col-xl-7">
-          <div class="site-heading">
-            <h1>
-              {% block title %}현수넷{% endblock title %}
-            </h1>
-            <span class="subheading"></span>
-          </div>
-        </div>
-      </div>
+  <div class="card text-center">
+    <div class="card-header">
+      예약
     </div>
-  </header>
-  <div class="container-fluid">
-    <h1>MAIN</h1>
-    <div class="card" style="width: 18rem;">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.<br>
-          <a href="">링크</a>
-        </p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
-      </div>
+    <div class="card-body">
+      <h5 class="card-title">{{order}}</h5>
+      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+      <a href="#" class="btn btn-primary">Go somewhere</a>
+    </div>
+    <div class="card-footer text-muted">
+      2 days ago
     </div>
   </div>
 {% endblock content %}

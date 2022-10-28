@@ -18,7 +18,7 @@ class RoomForm(forms.ModelForm):
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Order
-        fields = ['visit_at', 'leave_at', 'room']
+        fields = ['customer','visit_at', 'leave_at', 'room']
 
 
 # CommentForm - fields : content

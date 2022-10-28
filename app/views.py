@@ -41,14 +41,26 @@ def hotel_detail(request,pk):
 @login_required(login_url="login")
 def order(request, pk):
 
-    order = Order.objects.get(id=pk)
+    room = Room.objects.get(id=pk)
 
-    return render(request, "order.html",{"order":order})
+    if request.method == "POST":
+
+        visit_at = request.POST.get('checkin')
+        leave_at = request.POST.get('checkout')
+        room = room
+        customer = request.user
+
+        order = Order.objects.create(visit_at=visit_at,leave_at=leave_at,room=room,customer=customer)        
+        
+        return redirect("order_result")
+    
+
+    return render(request, "order.html",{"room":room})
 
 @login_required(login_url="login")
-def hotel_order(request):
+def order_result(request):
 
-    order = Order.objects.filter(customer=request.user)
+    orders = Order.objects.filter(customer=request.user)
 
     # if request.method == "POST":
     #     form = OrderForm(request.POST, request.FILES)
@@ -63,7 +75,8 @@ def hotel_order(request):
     # else:
     #     form = OrderForm()
 
-    return render(request, "order.html",{"order":order})
+
+    return render(request, "app/order_result.html",{"orders":orders})
 
 @require_POST
 @login_required(redirect_field_name="next")
@@ -228,4 +241,3 @@ def hotel_search(request):
     rooms = paginator.get_page(page)
 
     return render(request, "app/hotel_search.html",{"rooms":rooms,'page':page,'keyword':keyword,'so':so})
-

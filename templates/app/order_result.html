@@ -1,0 +1,24 @@
+{% include 'base_order.html' %}
+{% load static %}
+{% block style %}
+  <style></style>
+{% endblock style %}
+{% block content %}
+  <div class="card text-center">
+    <div class="card-header">
+      예약
+    </div>
+    {% for order in orders %}
+      <div class="card-body">
+        <img src="/media/{{order.room.rimage}}" class="img-fluid w-50" alt="...">
+        <h5 class="card-title">{{order.room.hotel.hname}}</h5>
+        <h5 class="card-title">{{order.room.roomtype}}</h5>
+        <h5 class="card-title">{{order.customer}}</h5>
+        <h5 class="card-title">{{order.visit_at}}</h5>
+        <h5 class="card-title">{{order.leave_at}}</h5>
+        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+        <a href="#" class="btn btn-primary">예약취소</a>
+      </div>
+    {% endfor %}
+  </div>
+{% endblock content %}

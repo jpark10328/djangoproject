@@ -2,8 +2,8 @@
 {% load static %}
 {% block style %}
   <style>
-    .card {
-      margin-top: 90px;
+    .img {
+      : 90px;
     }
 
     .card-header {
@@ -19,27 +19,34 @@
   <div class="container mt-5">
     <div class="row mt-4"></div>
     <div class="row mt-5">
-      <img src="/media/{{room.rimage}}" class="img-fluid w-50" alt="...">
-
-      <div class="col">
-        <h1>{{room.roomtype}}</h1>
-        <h2>{{room.hotel.hname}}</h2>
-        <p class="address">{{room.hotels.province}}
-          {{room.hotel.city}}
-          {{room.hotel.address_1}}
-          {{room.hotel.address_2}}</p>
-        <p>{{room.hotel.hinfo}}</p>
-        <form action="" method="post">
-          {% csrf_token %}
-          <div class="col-10 input-group">
-            <input type="date" class="form-control checkin" name="checkin" value="{{chekin|default_if_none:''}}">
-            <input type="date" class="form-control checkout" name="checkout" value="{{chekout|default_if_none:''}}">
-            <input type="hidden" name="roomid" value="{{room.id}}">
-            <div class="input-group-append">
-              <button type="submit" class="btn btn-outline-secondary" id="btn_order">예약하기</button>
+      <div class="col"></div>
+      <div class="col mb-3">
+        <div class="img text-center">
+          <img src="/media/{{room.rimage}}" class="img-fluid" alt="...">
+        </div>
+      </div>
+      <div class="col"></div>
+      <div class="row">
+        <div class="col text-center">
+          <h1>{{room.roomtype}}</h1>
+          <h2>{{room.hotel.hname}}</h2>
+          <p class="address">{{room.hotels.province}}
+            {{room.hotel.city}}
+            {{room.hotel.address_1}}
+            {{room.hotel.address_2}}</p>
+          <p>{{room.hotel.hinfo}}</p>
+          <form action="" method="post">
+            {% csrf_token %}
+            <div class="col-10 input-group">
+              <input type="date" class="form-control checkin" name="checkin" value="{{chekin|default_if_none:''}}">
+              <input type="date" class="form-control checkout" name="checkout" value="{{chekout|default_if_none:''}}">
+              <input type="hidden" name="roomid" value="{{room.id}}">
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-outline-secondary" id="btn_order">예약하기</button>
+              </div>
             </div>
-          </div>
-        </form>
+          </form>
+        </div>
       </div>
     </div>
 

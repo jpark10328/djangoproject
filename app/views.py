@@ -149,9 +149,9 @@ def hotel_search(request):
     checkin = request.GET.get('checkin',timezone.localdate())
     checkout = request.GET.get('checkout',timezone.localdate())
     roomcap = request.GET.get('roomcap','1')
-    print(checkin)
-    print(checkout)
-    print("&*&*&*")
+    # print(checkin)
+    # print(checkout)
+    # print("&*&*&*")
 
     # 사용자가 요청한 페이지 값 가져오기
     page = request.GET.get("page", 1)
@@ -224,8 +224,8 @@ def hotel_search(request):
 
     rooms = Room.objects.filter(hotel__id__in=list(hotel_ids)).filter(roomcap__gte = roomcap).exclude(id__in=list(order_ids))
 
-    for room in rooms:
-        print(room)
+    # for room in rooms:
+        # print(room)
 
     # for room in rooms:
     #     room_list =[

@@ -141,7 +141,7 @@
 
       //오늘날짜 세팅
       today = new Date();
-      console.log(today.toISOString());
+      //console.log(today.toISOString());
       today = today.toISOString().slice(0,10);
 
     // var dd = today.getDate();
@@ -176,6 +176,14 @@
       $(".page-link").on("click", function (e) {
         e.preventDefault();
         $("#page").val($(this).data("page"));
+
+        //console.log($(".checkin").val());
+        var checkin = new Date($(".checkin").val());
+        //console.log("checkin",checkin);
+
+        $("#checkin").val($(".checkin").val());
+        $("#checkout").val($(".checkout").val());
+       
         $("#searchForm").submit();
       })
 
@@ -183,12 +191,6 @@
       $("#btn_search").on('click', function () {
         // 사용자가 입력한 검색어를 가져온 후 searchForm keyword 태그의 value안에 삽입
         $("#keyword").val($(".keyword").val());
-
-        console.log($(".checkin").val());
-        
-
-
-
         $("#checkin").val($(".checkin").val());
         $("#checkout").val($(".checkout").val());
         $("#roomcap").val($(".roomcap").val());
@@ -196,7 +198,7 @@
         $("#page").val(1);
 
 
-        console.log($("#searchForm").html());
+        //console.log($("#searchForm").html());
 
         $("#searchForm").submit();
       })

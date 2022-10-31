@@ -2,16 +2,10 @@
 {% load static %}
 {% block style %}
   <style>
-    .img {
-      : 90px;
-    }
-
-    .card-header {
-      background-color: #BCBCBC;
-    }
-
-    .card-footer {
-      background-color: #BCBCBC;
+    .card {
+      width: 800px;
+      margin: 0 auto;
+      padding: 10px 15px;
     }
   </style>
 {% endblock style %}
@@ -34,7 +28,9 @@
             {{room.hotel.city}}
             {{room.hotel.address_1}}
             {{room.hotel.address_2}}</p>
-          <p>{{room.hotel.hinfo}}</p>
+          <div class="card">
+            <span>{{room.hotel.hinfo|linebreaks}}</span>
+          </div>
           <form action="" method="post">
             {% csrf_token %}
             <div class="col-10 input-group">

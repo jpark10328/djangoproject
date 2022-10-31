@@ -1,16 +1,87 @@
 {% extends 'base.html' %}
 {% block content %}
-  <div class="container-fluid">
-    <h1>MAIN</h1>
-    <div class="card" style="width: 18rem;">
-      <img src="..." class="card-img-top" alt="...">
-      <div class="card-body">
-        <h5 class="card-title">Card title</h5>
-        <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.<br>
-          <a href="">링크</a>
-        </p>
-        <a href="#" class="btn btn-primary">Go somewhere</a>
+  <div class="container my-3">
+    <!--검색 폼-->
+    <div class="row my-3">
+      <div class="col">
+        <h4>목적지</h4>
+      </div>
+      <div class="col">
+        <h4>인원 수</h4>
+      </div>
+      <div class="col">
+        <h4>체크인</h4>
+      </div>
+      <div class="col">
+        <h4>체크아웃</h4>
       </div>
     </div>
+    <div class="row ">
+      <div class="col">
+        <input type="text" class="form-control keyword" value="{{keyword|default_if_none:''}}" placeholder="지역/숙소명 검색">
+      </div>
+
+      <div class="col">
+        <select class="form-control roomcap">
+          <option value="1" selected="selected">1명</option>
+          <option value="2">2명</option>
+          <option value="3">3명</option>
+          <option value="4">4명</option>
+          <option value="5">5명</option>
+          <option value="6">6명+</option>
+        </select>
+      </div>
+      <div class="col"><input type="date" class="form-control checkin" value="{{chekin|default_if_none:''}}"></div>
+      <div class="col"><input type="date" class="form-control checkout" value="{{chekout|default_if_none:''}}"></div>
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-3">
+        <button type="button" class="btn btn-outline-secondary" id="btn_search">숙소 찾기</button>
+      </div>
+    </div>
+    <form action="{% url 'hotel_search' %}" method="get" id="searchForm">
+      <input type="hidden" name="keyword" value="{{keyword|default_if_none:''}}" id="keyword">
+      <input type="hidden" name="page" value="{{page}}" id="page">
+      <input type="hidden" name="so" value="{{so}}" id="so">
+      <input type="hidden" name="checkin" value="{{checkin}}" id="checkin">
+      <input type="hidden" name="checkout" value="{{checkout}}" id="checkout">
+      <input type="hidden" name="roomcap" value="{{roomcap}}" id="roomcap">
+    </form>
   </div>
 {% endblock content %}
+{% block script %}
+  <script>
+    $(function () {
+
+      //오늘날짜 세팅
+      today = new Date();
+      //console.log(today.toISOString());
+      today = today
+        .toISOString()
+        .slice(0, 10);
+
+      // var dd = today.getDate();
+      // var mm = today.getMonth()+1; As January is 0.
+      // var yyyy = today.getFullYear();
+
+      // if(dd<10) dd='0'+dd;
+      // if(mm<10) mm='0'+mm;
+      $(".checkin").val(today);
+      $(".checkout").val(today);
+
+      //검색버튼 클릭시
+      $("#btn_search").on('click', function () {
+        // 사용자가 입력한 검색어를 가져온 후 searchForm keyword 태그의 value안에 삽입
+        $("#keyword").val($(".keyword").val());
+        $("#checkin").val($(".checkin").val());
+        $("#checkout").val($(".checkout").val());
+        $("#roomcap").val($(".roomcap").val());
+        // searchForm page 태그의 value을 1로 변경
+
+        //console.log($("#searchForm").html());
+
+        $("#searchForm").submit();
+      })
+    });
+  </script>
+{% endblock script %}

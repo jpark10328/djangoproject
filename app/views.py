@@ -55,7 +55,7 @@ def order(request, pk):
         return redirect("order_result")
     
 
-    return render(request, "order.html",{"room":room})
+    return render(request, "app/order.html",{"room":room})
 
 @login_required(login_url="login")
 def order_result(request):

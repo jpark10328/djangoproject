@@ -1,0 +1,216 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+  <style>
+    summary {
+      cursor: pointer;
+    }
+
+    summary {
+      list-style: none;
+    }
+
+    summary::-webkit-details-marker {
+      display: none;
+    }
+
+    .box {
+      margin: 5px auto;
+    }
+
+    .content {
+      width: auto;
+      font-size: 17px;
+      px padding: 5px;
+      border: 1px solid #ddd;
+    }
+
+    .col-md-4 {
+      width: 350px;
+    }
+  </style>
+{% endblock style %}
+{% block content %}
+<div class="container my-3">
+  <h1>호텔 목록</h1>
+  <!--검색 폼-->
+  <div class="row my-3">
+    <div class="col-2">
+      <select class="form-control so">
+        <option value="recommend" {% if so == 'recommend' %} selected="selected"{% endif %}>추천순</option>
+        {% comment %} <option value="popular" {% if so == 'popular' %} selected="selected"{% endif %}>인기순</option> {% endcomment %}
+      </select>
+    </div>
+    <div class="col-10 input-group">
+      <input type="text" class="form-control keyword" value="{{keyword|default_if_none:''}}">
+      <select class="form-control roomcap">
+        <option value="1">1명</option>
+        <option value="2">2명</option>
+        <option value="3">3명</option>
+        <option value="4">4명</option>
+        <option value="5">5명</option>
+        <option value="5">6명+</option>
+      </select>
+      <input type="date" class="form-control checkin" value="{{chekin|default_if_none:''}}">
+      <input type="date" class="form-control checkout" value="{{chekout|default_if_none:''}}">
+      <div class="input-group-append">
+        <button type="button" class="btn btn-outline-secondary" id="btn_search">검색</button>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="container">
+    <div class="row mt-5">
+      {% for room in rooms %}
+        <div class="card mb-3" style="max-width: 1500px;">
+          <div class="row g-0">
+            <div class="col-md-4">
+              <a href="{% url 'hotel_detail' room.hotel.pk %}"><img src="/media/{{room.hotel.himage}}" class="img-fluid rounded-start" alt="..."></a>
+            </div>
+            <div class="col-md-8">
+              <div class="card-body">
+                <h3 class="card-title">
+                  <a href="{% url 'hotel_detail' room.hotel.pk %}">{{room.hotel.hname}},{{room.roomtype}}</a>
+                </h3>
+                <small class="card-text">
+                  <svg class="bk-icon -iconset-geo_pin" height="20" role="presentation" width="20" viewbox="0 0 128 128" aria-hidden="true" focusable="false">
+                    <path d="M98.5 42.5a34.5 34.5 0 1 0-64.3 17.2L64 120l29.8-60.3a34.2 34.2 0 0 0 4.7-17.2zM64 59.7a17.2 17.2 0 1 1 17-17 17.2 17.2 0 0 1-17 17z"></path>
+                  </svg>
+                  {{room.hotel.province}}
+                  {{room.hotel.city}}
+                  {{room.hotel.address_1}}
+                  {{room.hotel.address_2}}</small>
+                <div class="box">
+                  <div class="content">
+                    {{room.hotel.hinfo|linebreaks}}
+                  </div>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                  <a href="{% url 'order' room.id %}" class="btn btn-primary float-right">예약하기</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+    <!--페이지 처리-->
+    {% comment %} <div class="row mt-2">
+      <div class="col-12">
+        <nav>
+          <ul class="pagination justify-content-center">
+            {% if hotel_list.has_previous %}
+              <li class="page-item">
+                <a href="#" class="page-link" data-page="{{hotel_list.previous_page_number}}">이전</a>
+              </li>
+            {% endif %}
+            {% for page in hotel_list.paginator.page_range %}
+              {% if page >= hotel_list.number|add:-5 and page <= hotel_list.number|add:5 %}
+                <li class="page-item {% if page == hotel_list.number %}active{% endif %}">
+                  <a href="#" class="page-link" data-page="{{page}}">{{page}}</a>
+                </li>
+              {% endif %}
+            {% endfor %}
+            {% if hotel_list.has_next %}
+              <li class="page-item">
+                <a href="#" class="page-link" data-page="{{hotel_list.next_page_number}}">다음</a>
+              </li>
+            {% endif %}
+          </ul>
+        </nav>
+      </div>
+    </div> {% endcomment %}
+    {% comment %} <a href="{% url 'board:question_create' %}" class="btn btn-primary">질문 등록</a> {% endcomment %}
+    </div>
+    <!-- 검색버튼/정렬기준을 누르면 아래 폼 전송-->
+    <form action="" method="get" id="searchForm">
+    <input type="hidden" name="keyword" value="{{keyword|default_if_none:''}}" id="keyword">
+    <input type="hidden" name="page" value="{{page}}" id="page">
+    <input type="hidden" name="so" value="{{so}}" id="so">
+    <input type="hidden" name="checkin" value="{{checkin}}" id="checkin">
+    <input type="hidden" name="checkout" value="{{checkout}}" id="checkout">
+    <input type="hidden" name="roomcap" value="{{roomcap}}" id="roomcap">
+    </form>
+  </div>
+
+{% endblock content %}
+{% block script %}
+  <script>
+    $(function () {
+      //제목을 클릭시 searchForm 전송
+      //a 기본 기능 중지, href 값 가져오기, href 값을 form action에 지정하고 보내기
+      $(".move").on("click", function (e) {
+        e.preventDefault();
+        let href = $(this).attr("href");
+        $("#searchForm").attr("action", href);
+        $("#searchForm").submit();
+      })
+
+      //정렬기준 변경시 so 값을 변경 후 searchForm 전송
+      $(".so").on('change', function () {
+        $("#so").val($(this).val());
+        $("#page").val(1);
+        $("#searchForm").submit();
+      })
+
+      //페이지 나누기 버튼 클릭시
+      $(".page-link").on("click", function () {
+        $("#page").val($(this).data("page"));
+        $("#searchForm").submit();
+      })
+
+      //검색버튼 클릭시
+      $("#btn_search").on('click', function () {
+        // 사용자가 입력한 검색어를 가져온 후 searchForm keyword 태그의 value안에 삽입
+        $("#keyword").val($(".keyword").val());
+        $("#checkin").val($(".checkin").val());
+        $("#checkout").val($(".checkout").val());
+        $("#roomcap").val($(".roomcap").val());
+
+
+        // searchForm page 태그의 value을 1로 변경
+        $("#page").val(1);
+        $("#searchForm").submit();
+      })
+    });
+    $(document).ready(function(){
+  
+      $('.box').each(function(){
+          var content = $(this).children('.content');
+          var content_txt = content.text();
+          var content_txt_short = content_txt.substring(0,100)+"...";
+          var btn_more = $('<a href="javascript:void(0)" class="more">더보기</a>');
+
+          
+          $(this).append(btn_more);
+          
+          if(content_txt.length >= 100){
+              content.html(content_txt_short)
+              
+          }else{
+              btn_more.hide()
+          }
+          
+          btn_more.click(toggle_content);
+          // 아래 bind가 안 되는 이유는??
+          // btn_more.bind('click',toggle_content);
+
+          function toggle_content(){
+              if($(this).hasClass('short')){
+                  // 접기 상태
+                  $(this).html('더보기');
+                  content.html(content_txt_short)
+                  $(this).removeClass('short');
+              }else{
+                  // 더보기 상태
+                  $(this).html('접기');
+                  content.html(content_txt);
+                  $(this).addClass('short');
+
+              }
+          }
+      });
+  });
+  </script>
+{% endblock script %}

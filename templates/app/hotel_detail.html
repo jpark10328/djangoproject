@@ -1,0 +1,332 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block style %}
+  <style>
+    .hp__important_facility_icon {
+      fill: #008009;
+    }
+
+    .box {
+      margin: 4px auto;
+    }
+  </style>
+{% endblock style %}
+{% block content %}
+  <div class="container">
+    <div class="row mt-4"></div>
+    <div class="row mt-5">
+      <div id="carouselExampleIndicators" class="carousel slide w-50" data-bs-ride="carousel">
+        <div class="carousel-indicators">
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="3" aria-label="Slide 4"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="4" aria-label="Slide 5"></button>
+          <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="5" aria-label="Slide 6"></button>
+        </div>
+        <div class="carousel-inner">
+          {% for himage in hotel.image_set.all %}
+            <div class="carousel-item {% if forloop.counter0 == 0 %}active {% else %}{{default_if_none}}{% endif %}">
+              <img src="{{himage.image.url}}" class="d-block w-100" alt="...">
+            </div>
+          {% endfor %}
+        </div>
+        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Previous</span>
+        </button>
+        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="visually-hidden">Next</span>
+        </button>
+      </div>
+
+      <div class="col">
+        <h1>{{hotel.hname}}</h1>
+        <p class="address">{{hotels.province}}
+          {{hotel.city}}
+          {{hotel.address_1}}
+          {{hotel.address_2}}</p>
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th scope="col">#</th>
+              <th scope="col">주요</th>
+              <th scope="col">편의시설</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for checkbox in checkboxes %}
+              <tr>
+                <th scope="row">
+                  {% if checkbox.family == True %}
+                    <td>
+                      <svg class="bk-icon -iconset-family hp__important_facility_icon" height="20" width="20" viewbox="0 0 128 128" role="presentation" aria-hidden="true" focusable="false">
+                        <path d="M18 18a10 10 0 1 1 10 10 10 10 0 0 1-10-10zm26 16s-9.8-2-16-2-16 2-16 2c-4 1-4.3 3.4-4 6l3.4 30.5a4.3 4.3 0 0 0 1.3 2.6l1.8 1.8a4.3 4.3 0 0 1 1.3 2.7l3.6 38.4a4.4 4.4 0 0 0 4.5 4h8.2a4.4 4.4 0 0 0 4.5-4L40 77.6a4.3 4.3 0 0 1 1.3-2.7l1.9-1.8a4.3 4.3 0 0 0 1.2-2.6L48 40c.3-2.6.1-5-3.9-6zm20 23a8 8 0 1 0-8-8 8 8 0 0 0 8 8zm11.2 2.4A73.6 73.6 0 0 0 64 58a73.6 73.6 0 0 0-11.2 1.4c-2.8.7-3 2.3-2.7 4.1l2.3 21a3 3 0 0 0 1 1.9l1.2 1.2a3 3 0 0 1 1 2l2.4 27.7a3.1 3.1 0 0 0 3.1 2.7H67a3.1 3.1 0 0 0 3.1-2.8l2.5-27.7a3 3 0 0 1 1-1.9l1.2-1.2a3 3 0 0 0 .9-1.8l2.4-21c.2-1.9 0-3.5-2.8-4.2zM100 28a10 10 0 1 0-10-10 10 10 0 0 0 10 10zm16 6s-9.8-2-16-2-16 2-16 2c-4 1-4.3 3.4-4 6l3.4 30.5a4.3 4.3 0 0 0 1.3 2.6l1.8 1.8a4.3 4.3 0 0 1 1.3 2.7l3.6 38.4a4.4 4.4 0 0 0 4.5 4h8.2a4.4 4.4 0 0 0 4.4-4l3.6-38.4a4.3 4.3 0 0 1 1.3-2.7l1.8-1.8a4.3 4.3 0 0 0 1.3-2.6L120 40c.3-2.6.1-5-3.9-6z"></path>
+                      </svg>
+                      가족 객실
+                    </td>
+                  {% endif %}
+                  {% if checkbox.wifi == True %}
+                    <td>
+                      <svg class="bk-icon -iconset-wifi hp__important_facility_icon" height="20" width="20" viewbox="0 0 128 128" role="presentation" aria-hidden="true" focusable="false">
+                        <circle cx="64" cy="100" r="12"></circle>
+                        <path d="M118.3 32.7A94.9 94.9 0 0 0 64 16 94.9 94.9 0 0 0 9.7 32.7a4 4 0 1 0 4.6 6.6A87 87 0 0 1 64 24a87 87 0 0 1 49.7 15.3 4 4 0 1 0 4.6-6.6zM87.7 68.4a54.9 54.9 0 0 0-47.4 0 4 4 0 0 0 3.4 7.2 47 47 0 0 1 40.6 0 4 4 0 0 0 3.4-7.2z"></path>
+                        <path d="M104 50.5a81.2 81.2 0 0 0-80 0 4 4 0 0 0 4 7 73.2 73.2 0 0 1 72 0 4 4 0 0 0 4-7z"></path>
+                      </svg>
+                      전구역 Wi-Fi
+                    </td>
+                  {% endif %}
+                </th>
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                {% if checkbox.parking %}
+                  <td>
+                    <svg class="bk-icon -iconset-parking_sign hp__important_facility_icon" height="20" width="20" viewbox="0 0 128 128" role="presentation" aria-hidden="true" focusable="false">
+                      <path d="M70.8 44H58v16h12.8a8 8 0 0 0 0-16z"></path>
+                      <path d="M108 8H20A12 12 0 0 0 8 20v88a12 12 0 0 0 12 12h88a12 12 0 0 0 12-12V20a12 12 0 0 0-12-12zM70 76H58v24H42V28h28a24 24 0 0 1 0 48z"></path>
+                    </svg>
+                    무료 주차
+                  </td>
+                {% endif %}
+                {% if checkbox.fitness %}
+                  <td>
+                    <svg class="bk-icon -iconset-fitness hp__important_facility_icon" height="20" width="20" viewbox="0 0 128 128" role="presentation" aria-hidden="true" focusable="false">
+                      <path d="M80 85.6L42.4 48l5.6-5.6L85.6 80zM13.2 19a4 4 0 1 0 5.7-5.7l-4-4A4 4 0 0 0 9.2 15zM56 8l-8 8-8-8L8 40l8 8-8 8 8.1 8.1 48-48zm58.9 101.1a4 4 0 1 0-5.7 5.7l4 4a4 4 0 1 0 5.7-5.7zm5.2-37l-8.1-8.2-48 48 8.2 8.1 8-8 8 8 32-32-8-8z"></path>
+                    </svg>
+                    피트니스 센터:<em>좋음</em>
+                  </td>
+                {% endif %}
+              </tr>
+              <tr>
+                <th scope="row"></th>
+                {% if checkbox.nosmoking %}
+                  <td>
+                    <svg class="bk-icon -iconset-nosmoking hp__important_facility_icon" height="20" width="20" viewbox="0 0 128 128" role="presentation" aria-hidden="true" focusable="false">
+                      <path d="M64 8a56 56 0 1 0 56 56A56 56 0 0 0 64 8zm0 104a48 48 0 0 1-36.6-79l31 31H28v8h38.3L95 100.6A47.8 47.8 0 0 1 64 112zm36.6-17l-23-23H84v-8H69.7L33 27.4A48 48 0 0 1 100.6 95zM92 64h8v8h-8zm0-10c0-7.7-5.9-14-13.2-14H78a2 2 0 0 1-2-2 10 10 0 0 0-10-10h-8a2 2 0 0 1 0-4h8a14 14 0 0 1 13.8 12c9 .6 16.2 8.4 16.2 18a2 2 0 0 1-4 0zm-8 0a2 2 0 0 1-4 0 2 2 0 0 0-2-2h-3a15 15 0 0 1-15-15 2 2 0 0 1 4 0 11 11 0 0 0 11 11h3a6 6 0 0 1 6 6z"></path>
+                    </svg>
+                    금연 객실
+                  </td>
+                {% endif %}
+                {% if checkbox.breakfast %}
+                  <td>
+                    <svg class="bk-icon -iconset-coffee hp__important_facility_icon" height="20" width="20" viewbox="0 0 128 128" role="presentation" aria-hidden="true" focusable="false">
+                      <path d="M104 116a4 4 0 0 1-4 4H28a4 4 0 0 1 0-8h72a4 4 0 0 1 4 4zM40 96V50a2 2 0 0 1 2-2h44a2 2 0 0 1 2 2v6.4a20 20 0 0 1 0 39.2v.4a8 8 0 0 1-8 8H48a8 8 0 0 1-8-8zm48-31.3v22.6a12 12 0 0 0 0-22.6zM49 88a4 4 0 0 0 8 0V64a4 4 0 0 0-8 0zm-1-52a4 4 0 0 0 4-4V16a4 4 0 0 0-8 0v16a4 4 0 0 0 4 4zm16 4a4 4 0 0 0 4-4V12a4 4 0 0 0-8 0v24a4 4 0 0 0 4 4zm16-4a4 4 0 0 0 4-4V16a4 4 0 0 0-8 0v16a4 4 0 0 0 4 4z"></path>
+                    </svg>
+                    <em>최고의</em>
+                    조식
+                  </td>
+                {% endif %}
+              </tr>
+            {% endfor %}
+
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
+      <li class="nav-item" role="presentation">
+        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">객실정보</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">숙소안내</button>
+      </li>
+      <li class="nav-item" role="presentation">
+        <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">숙소리뷰</button>
+      </li>
+    </ul>
+    <div class="tab-content" id="myTabContent">
+      <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+        {% for room in rooms %}
+          <div class="card mb-3" style="max-width: 1500px;">
+            <div class="row g-0">
+              <div class="col-md-4 mt-5">
+                <img src="/media/{{room.rimage}}" class="img-fluid rounded-start" alt="...">
+              </div>
+              <div class="col-md-8">
+                <div class="card-body text-dark">
+                  <h5 class="card-title">{{room.roomtype|linebreaks}}</h5>
+                  <p class="card-text">{{room.rcontent|linebreaks}}</p>
+                </div>
+                <div style="text-align:right;" class="col">
+                  <dl>
+                    <dt>숙소가격</dt>
+                    <span class="StickyNavPrice__priceDetail--lowerText-small">₩{{room.roomprice}}</span>
+                  </dl>
+                </div>
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-3">
+                  <a href="{% url 'order' room.id %}" class="btn btn-outline-secondary float-right">예약하기</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        {% endfor %}
+      </div>
+      <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="box">
+          <p>
+            {{hotel.hinfo|linebreaks}}
+          </p>
+          {% autoescape off %}
+            {{hotel.hmap}}
+          {% endautoescape %}
+        </div>
+      </div>
+      <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+
+        <!--댓글 영역-->
+        <div class="card">
+          <div class="card-header comment-header">
+            <i class="fas fa-comments"></i>
+            <span class="small">
+              리뷰
+            </span>
+          </div>
+
+          <!--댓글 목록 반복될 부분-->
+          {% if hotel.comment_set.count > 0 %}
+            {% for comment in hotel.comment_set.all %}
+              <div class="card-body">
+                <div class="card-title">{{comment.content}}</div>
+                <div class="d-flex justify-content-end p-2 bg-light">
+                  <div>{{comment.author.email}}</div>
+                  <div>({{comment.created_at}})</div>
+                  <span>
+                    {% if comment.created_at < comment.modified_at %}
+                      (수정:{{comment.modified_at}})
+                    {% endif %}
+                  </span>
+                  <a href="{{comment.id}}" class="btn-outline-primary modify">수정</a>
+                  <a href="#" class="btn-outline-danger delete" data-uri="{% url 'comment_delete' comment.id %}">삭제</a>
+                </div>
+              </div>
+            {% endfor %}
+          {% endif %}
+        </div>
+
+        <!-- 에러메세지 출력 -->
+        <div class="row mx-auto mt-5">
+          {% if messages %}
+            <div class="alert alert-danger">
+              {% for msg in messages %}
+                <strong>{{msg}}</strong>
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+
+        <!-- 댓글입력 -->
+        <div class="col-12 mt-5">
+          <form method="post" action="{% url 'comment_create' %}">
+            {% csrf_token %}
+            <input type="hidden" name="hotel_id" value="{{hotel.id}}">
+            <input type="hidden" name="modify_comment_id" id="modify_comment_id" value="">
+
+            <div class="form-group">
+              <textarea name="content" id="content" rows="7" class="form-control"></textarea>
+            </div>
+
+            {% if user.is_authenticated %}
+              <div class="form-group mt-2">
+                <button type="submit" class="btn btn-primary">댓글등록</button>
+              </div>
+            {% endif %}
+
+          </form>
+        </div>
+      </div>
+    </div>
+  {% endblock content %}
+
+  {% block script %}
+    <script>
+      $(function () {
+
+        // 부트스트랩 클릭 코드
+        const pageAccessedByReload = (PerformanceNavigationTiming && PerformanceNavigationTiming.TYPE === 1) || window
+          .performance
+          .getEntriesByType("navigation")
+          .map((nav) => nav.type)
+          .includes("reload");
+
+        if (pageAccessedByReload == true) {
+          //실행 코드
+          var contact = document.querySelector('#contact-tab');
+          contact.click();
+
+        }
+
+        $(".btn-outline-danger, .delete").on("click", function () {
+          if (confirm("정말로 삭제하시겠습니까?")) {
+            // data-uri 에 있는 값 가져온 후 location.href 이용해서 이동
+            console.log($(this).data("uri"));
+            location.href = $(this).data("uri");
+          }
+        });
+        $(".modify").on("click", function (e) {
+          e.preventDefault();
+
+          // comment id 가져오기
+          let comment_id = $(this).attr("href");
+          console.log(comment_id);
+
+          // comment_id 에 해당하는 comment 가져오기
+          $.ajax({
+            url: '/app/comment/modify/' + comment_id + "/",
+            success: function (response) {
+              console.log(response);
+
+              $("#content").val(response.content);
+              $("#modify_comment_id").val(response.id);
+              $(".btn-primary").html("댓글수정");
+            }
+          })
+        })
+
+        $(".btn-primary").on("click", function (e) {
+          e.preventDefault();
+
+          let text = $(this).html();
+
+          if (text === "댓글수정") {
+            // comment id 가져오기
+            let form = $(this).closest("form");
+
+            let comment_id = $(form)
+              .find("#modify_comment_id")
+              .val();
+            let hotel_id = $(form)
+              .find("[name='hotel_id']")
+              .val();
+            let content = $(form)
+              .find("#content")
+              .val();
+
+            data = {
+              csrfmiddlewaretoken: "{{csrf_token}}",
+              comment_id: comment_id,
+              hotel_id: hotel_id,
+              content: content
+            }
+
+            console.log(data);
+
+            // comment_id 에 해당하는 comment 가져오기
+            $.ajax({
+              url: '/app/comment/modify/' + comment_id + "/",
+              type: 'post',
+              data: data,
+              success: function (response) {
+                console.log(response);
+                $(content).val("");
+                location.reload();
+              }
+            })
+          }
+
+        })
+
+      })
+    </script>
+  {% endblock script %}

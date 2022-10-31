@@ -10,11 +10,7 @@
       <div class="col-8 text-right">
         <span>
           또는
-          <a href="">계정 생성</a>
-        </span>
-        <span>
-          또는
-          <a href="">비밀번호 초기화</a>
+          <a href="{% url 'user:user_register' %}">계정 생성</a>
         </span>
       </div>
     </div>
@@ -37,7 +33,7 @@
         </div>
       </form>
     </div>
-    <hr>
+    {% comment %} <hr>
     <div class="text-muted my-3">
       <small>구글 또는 카카오 계정으로 로그인</small>
     </div>
@@ -46,7 +42,7 @@
     </a>
     <a href="{% provider_login_url 'kakao' %}">
       <img src="{% static 'img/kakao.png' %}" alt="카카오로그인">
-    </a>
+    </a> {% endcomment %}
 
   </div>
 {% endblock content %}

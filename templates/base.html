@@ -56,13 +56,19 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ms-auto py-4 py-lg-0">
             <li class="nav-item">
-              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'index' %}"
-                >홈</a
-              >
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'index' %}">홈</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link px-lg-3 py-3 py-lg-4" href=""></a>
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'hotel_search' %}">숙소검색</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'hotel_list' %}">숙소목록</a>
+            </li>
+            {% if not request.user.is_authenticated %}
+            <li class="nav-item">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'order_result' %}">예약목록</a>
+            </li>
+            {% endif %}
             <li class="nav-item">
               <!-- 현재 로그인 사용자 : request.user -->
               {% if not request.user.is_authenticated %}

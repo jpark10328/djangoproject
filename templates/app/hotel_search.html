@@ -44,14 +44,14 @@
     <div class="col-10 input-group">
       <input type="text" class="form-control keyword" value="{{keyword|default_if_none:''}}">
       <select class="form-control roomcap">
-        <option value="1">1명</option>
+        <option value="1"  selected>1명</option>
         <option value="2">2명</option>
         <option value="3">3명</option>
         <option value="4">4명</option>
         <option value="5">5명</option>
-        <option value="5">6명+</option>
+        <option value="6">6명+</option>
       </select>
-      <input type="date" class="form-control checkin" value="{{chekin|default_if_none:''}}">
+      <input type="date" class="form-control checkin"  value="{{chekin|default_if_none:''}}">
       <input type="date" class="form-control checkout" value="{{chekout|default_if_none:''}}">
       <div class="input-group-append">
         <button type="button" class="btn btn-outline-secondary" id="btn_search">검색</button>
@@ -96,31 +96,31 @@
       {% endfor %}
     </div>
     <!--페이지 처리-->
-    {% comment %} <div class="row mt-2">
+    <div class="row mt-2">
       <div class="col-12">
         <nav>
           <ul class="pagination justify-content-center">
-            {% if hotel_list.has_previous %}
+            {% if rooms.has_previous %}
               <li class="page-item">
-                <a href="#" class="page-link" data-page="{{hotel_list.previous_page_number}}">이전</a>
+                <a href="#" class="page-link" data-page="{{rooms.previous_page_number}}">이전</a>
               </li>
             {% endif %}
-            {% for page in hotel_list.paginator.page_range %}
-              {% if page >= hotel_list.number|add:-5 and page <= hotel_list.number|add:5 %}
-                <li class="page-item {% if page == hotel_list.number %}active{% endif %}">
-                  <a href="#" class="page-link" data-page="{{page}}">{{page}}</a>
+            {% for page in rooms.paginator.page_range %}
+              {% if page >= rooms.number|add:-5 and page <= rooms.number|add:5 %}
+                <li class="page-item {% if page == rooms.number %}active{% endif %}">
+                  <a href="{{page}}" class="page-link" data-page="{{page}}">{{page}}</a>
                 </li>
               {% endif %}
             {% endfor %}
-            {% if hotel_list.has_next %}
+            {% if rooms.has_next %}
               <li class="page-item">
-                <a href="#" class="page-link" data-page="{{hotel_list.next_page_number}}">다음</a>
+                <a href="#" class="page-link" data-page="{{rooms.next_page_number}}">다음</a>
               </li>
             {% endif %}
           </ul>
         </nav>
       </div>
-    </div> {% endcomment %}
+    </div>
     {% comment %} <a href="{% url 'board:question_create' %}" class="btn btn-primary">질문 등록</a> {% endcomment %}
     </div>
     <!-- 검색버튼/정렬기준을 누르면 아래 폼 전송-->
@@ -138,13 +138,31 @@
 {% block script %}
   <script>
     $(function () {
+
+      //오늘날짜 세팅
+      today = new Date();
+      console.log(today.toISOString());
+      today = today.toISOString().slice(0,10);
+
+    // var dd = today.getDate();
+    // var mm = today.getMonth()+1; //As January is 0.
+    // var yyyy = today.getFullYear();
+      
+    // if(dd<10) dd='0'+dd;
+    // if(mm<10) mm='0'+mm;
+      $(".checkin").val(today);
+      $(".checkout").val(today);
+
+
+
+
+
       //제목을 클릭시 searchForm 전송
       //a 기본 기능 중지, href 값 가져오기, href 값을 form action에 지정하고 보내기
       $(".move").on("click", function (e) {
         e.preventDefault();
-        let href = $(this).attr("href");
-        $("#searchForm").attr("action", href);
-        $("#searchForm").submit();
+       // $("#page").val($(this).data("page"));     
+      //  $("#searchForm").submit();
       })
 
       //정렬기준 변경시 so 값을 변경 후 searchForm 전송
@@ -155,7 +173,8 @@
       })
 
       //페이지 나누기 버튼 클릭시
-      $(".page-link").on("click", function () {
+      $(".page-link").on("click", function (e) {
+        e.preventDefault();
         $("#page").val($(this).data("page"));
         $("#searchForm").submit();
       })
@@ -164,13 +183,21 @@
       $("#btn_search").on('click', function () {
         // 사용자가 입력한 검색어를 가져온 후 searchForm keyword 태그의 value안에 삽입
         $("#keyword").val($(".keyword").val());
+
+        console.log($(".checkin").val());
+        
+
+
+
         $("#checkin").val($(".checkin").val());
         $("#checkout").val($(".checkout").val());
         $("#roomcap").val($(".roomcap").val());
-
-
         // searchForm page 태그의 value을 1로 변경
         $("#page").val(1);
+
+
+        console.log($("#searchForm").html());
+
         $("#searchForm").submit();
       })
     });
@@ -212,5 +239,7 @@
           }
       });
   });
+  
+    
   </script>
 {% endblock script %}

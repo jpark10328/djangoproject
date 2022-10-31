@@ -146,8 +146,8 @@ def hotel_search(request):
     keyword = request.GET.get('keyword','')
 
     # 사용자가 입력한 입실/퇴실 날짜 가져오기
-    checkin = request.GET.get('checkin',timezone.now())
-    checkout = request.GET.get('checkout',timezone.now())
+    checkin = request.GET.get('checkin',timezone.localdate())
+    checkout = request.GET.get('checkout',timezone.localdate())
     roomcap = request.GET.get('roomcap','1')
     print(checkin)
     print(checkout)
@@ -195,14 +195,14 @@ def hotel_search(request):
     #     )
 
 
-    print("hotel_ids")
+    # print("hotel_ids")
     # room 에서 hotel_lists id와 일치하는 room_id 추출
     hotel_ids=hotel_lists.values_list('id',flat=True)
-    print(hotel_ids)
+    # print(hotel_ids)
     # roomcap 이 맞는 room_id 추출
     room_ids = Room.objects.filter(hotel__id__in=list(hotel_ids)).filter(roomcap__gte = roomcap).values_list('id',flat=True)
-    print("room_ids")
-    print(room_ids)
+    # print("room_ids")
+    # print(room_ids)
 
     # order 에서 room_id 가 일치하고 예약된 날짜가 없는 값을 추출
 
@@ -211,10 +211,16 @@ def hotel_search(request):
             Q(visit_at__gte = checkin) &
             Q(leave_at__lte = checkout)
         )   
-    
+    # else:
+    #     checkin = timezone.now()
+    #     checkout = timezone.now()
+    #     order_ids = Order.objects.filter(room__id__in=list(room_ids)).values_list('room',flat=True).filter(
+    #         Q(visit_at__gte = checkin) &
+    #         Q(leave_at__lte = checkout)
+    #     )  
 
-    print("order_ids")
-    print(order_ids)
+    # print("order_ids")
+    # print(order_ids)
 
     rooms = Room.objects.filter(hotel__id__in=list(hotel_ids)).filter(roomcap__gte = roomcap).exclude(id__in=list(order_ids))
 
@@ -240,4 +246,4 @@ def hotel_search(request):
     paginator = Paginator(rooms, 5)
     rooms = paginator.get_page(page)
 
-    return render(request, "app/hotel_search.html",{"rooms":rooms,'page':page,'keyword':keyword,'so':so})
+    return render(request, "app/hotel_search.html",{"rooms":rooms,'page':page,'keyword':keyword,'so':so,'checkin':checkin,'checkout':checkout,'roomcap':roomcap})

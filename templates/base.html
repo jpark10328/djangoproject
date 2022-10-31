@@ -64,7 +64,7 @@
             <li class="nav-item">
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'hotel_list' %}">숙소목록</a>
             </li>
-            {% if not request.user.is_authenticated %}
+            {% if request.user.is_authenticated %}
             <li class="nav-item">
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'order_result' %}">예약목록</a>
             </li>

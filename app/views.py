@@ -84,6 +84,7 @@ def comment_create(request):
     """
     댓글 등록
     """
+    print('comment')
     errors = []
     if request.method == "POST":
         # 폼에서 넘어오는 값 2개 가져오기

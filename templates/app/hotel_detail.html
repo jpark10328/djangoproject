@@ -285,11 +285,11 @@
         })
 
         $(".btn-primary").on("click", function (e) {
-          e.preventDefault();
 
           let text = $(this).html();
 
           if (text === "댓글수정") {
+            e.preventDefault();
             // comment id 가져오기
             let form = $(this).closest("form");
 
@@ -319,8 +319,12 @@
               data: data,
               success: function (response) {
                 console.log(response);
-                $(content).val("");
-                location.reload();
+
+                if (response.message == "success") {
+                  // $(content).val("");
+                  location.reload();
+                }
+
               }
             })
           }

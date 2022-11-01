@@ -18,6 +18,7 @@ from django.core.paginator import Paginator
 from django.utils import timezone
 
 
+
 def home(request):
     return render(request, "home.html")
 
@@ -38,10 +39,50 @@ def hotel_detail(request,pk):
 
     return render(request, "app/hotel_detail.html",{"hotel":hotel,"rooms":rooms,"checkboxes":checkboxes})
 
+def order_delete(request, pk):
+    
+    order = Order.objects.get(id=pk)
+
+    order.delete()
+
+    return redirect("order_result")
+
+
 @login_required(login_url="login")
 def order(request, pk):
 
     room = Room.objects.get(id=pk)
+    # room 예약 가능일자 확인
+
+    checkin=timezone.localdate()
+    checkout=timezone.localdate() + timezone.timedelta(days=30)
+    # print(checkout)
+    if checkin:
+        orders = Order.objects.filter(room=room).filter(
+                Q(visit_at__gte = checkin) &
+                Q(leave_at__lte = checkout)
+            )
+
+        result_date=[
+            {
+                
+            "visit_at": order.visit_at.strftime("%Y-%m-%d"),
+            "leave_at":order.leave_at.strftime("%Y-%m-%d")           
+            }for order in orders
+        ]
+        print("result_date",result_date)       
+     
+
+    # result = []           
+    # for order in orders:
+    #     print(order)
+    #     check_date = []
+    #     for date in order:                     
+    #         check_date.append(date.strftime("%Y-%m-%d"))
+    #         # check_date.append(date)
+    #     result.append(check_date)
+                
+    # print(result)
 
     if request.method == "POST":
 
@@ -55,7 +96,7 @@ def order(request, pk):
         return redirect("order_result")
     
 
-    return render(request, "app/order.html",{"room":room})
+    return render(request, "app/order.html",{"room":room,"orders":orders,"result_date":result_date})
 
 @login_required(login_url="login")
 def order_result(request):

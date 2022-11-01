@@ -1,6 +1,7 @@
 {% extends 'base_order.html' %}
 {% load static %}
 {% block style %}
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css">
   <style>
     .card {
       width: 800px;
@@ -31,7 +32,7 @@
           <div class="card">
             <span>{{room.hotel.hinfo|linebreaks}}</span>
           </div>
-          <form action="" method="post">
+          {% comment %} <form action="" method="post">
             {% csrf_token %}
             <div class="col-10 input-group mt-3">
               <input type="date" class="form-control checkin" name="checkin" value="{{chekin|default_if_none:''}}">
@@ -41,31 +42,106 @@
                 <button type="submit" class="btn btn-outline-secondary" id="btn_order">예약하기</button>
               </div>
             </div>
+          </form> {% endcomment %}
+
+
+          <form action="" method="post">
+            <div class="col-8 input-group mt-3">
+            {% csrf_token %}
+              <input type="text" id="datepicker1" class="form-control checkin" name="checkin">
+              <input type="text" id="datepicker2" class="form-control checkout" name="checkout">
+              <input type="hidden" name="roomid" value="{{room.id}}">
+              <div class="input-group-append">
+                <button type="submit" class="btn btn-outline-secondary" id="btn_order">예약하기</button>
+              </div>
+            </div>
           </form>
         </div>
       </div>
     </div>
+  </div>  
+  <div style="display:none">
+    {% for date in result_date  %}
+      {{date.visit_at}}
+      {{date.leave_at}}
+    {% endfor %}
+
   </div>
 {% endblock content %}
 {% block script %}
+  <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.js"></script>
   <script>
-    $(function () {
+    $(function () {  
+     
 
-      //오늘날짜 세팅
-      today = new Date();
-      //console.log(today.toISOString());
-      today = today
-        .toISOString()
-        .slice(0, 10);
+      //오늘 이후 시작일 지정
+      $("#datepicker1").datepicker("option","minDate","0");
+      //오늘 이후 끝나는 날짜 지정
+      $("#datepicker2").datepicker("option","minDate","0");  
 
-      // var dd = today.getDate();
-      // var mm = today.getMonth()+1; As January is 0.
-      // var yyyy = today.getFullYear();
+      //예약 시작 가능날짜 보여주기
+      $("#datepicker1").datepicker({
+        dateFormat: "yy-mm-dd",
+        beforeShowDay:disabledDates
+      });
+      $("#datepicker1").datepicker();
+     // $("#datepicker1").datepicker("setDate","today");      
 
-      // if(dd<10) dd='0'+dd;
-      // if(mm<10) mm='0'+mm;
-      $(".checkin").val(today);
-      $(".checkout").val(today);
+     //예약 종료 가능날짜 보여주기
+      $("#datepicker2").datepicker({
+        dateFormat: "yy-mm-dd",
+        beforeShowDay:disabledDates
+      })  
+      $("#datepicker2").datepicker();
+
     })
+    function disabledDates(date)
+    {
+      let dateRange = [];  
+
+      var dateString = jQuery.datepicker.formatDate('yy-mm-dd', date);
+
+      var start=new Date();
+      var end, start1, end1;
+
+      {% for date in result_date %}
+        {% if forloop.counter0 == 0 %}
+        start = '{{date.visit_at}}';
+        end = '{{date.leave_at}}';        
+        {% endif %}
+        {% if forloop.counter0 == 1 %}
+        start1 = '{{date.visit_at}}';
+        end1 = '{{date.leave_at}}';        
+        {% endif %}
+      {% endfor %}   
+
+      //let dates = [];
+      //{% for date in result_date %}
+      //  dates.push($.datepicker.formatDate('yy-mm-dd', new Date('{{date.visit_at}}')))
+      //{% endfor %}   
+
+     // console.log(dates);
+
+     //for (var d = new Date(startdate); d <= new Date(enddate); d.setDate(d.getDate() + 1)) {
+
+      //  dateRange.push($.datepicker.formatDate('yy-mm-dd', d));
+     // }
+
+     if(start!=''){
+       var startdate = start;
+       var enddate = end;         
+ 
+       for (var d = new Date(startdate); d <= new Date(enddate); d.setDate(d.getDate() + 1)) {
+         dateRange.push($.datepicker.formatDate('yy-mm-dd', d));
+       }
+ 
+       for (var d = new Date(start1); d <= new Date(end1); d.setDate(d.getDate() + 1)) {
+         dateRange.push($.datepicker.formatDate('yy-mm-dd', d));
+       }
+ 
+       return [dateRange.indexOf(dateString) == -1];          
+
+     }
+    }
   </script>
 {% endblock script %}

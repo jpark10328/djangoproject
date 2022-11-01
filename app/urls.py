@@ -11,5 +11,6 @@ urlpatterns = [
     path('comment/delete/<int:comment_id>/',views.comment_delete, name="comment_delete"),
     path('order_result/',views.order_result, name="order_result"),
     path('order/<int:pk>/',views.order, name="order"),
+    path('order_delete/<int:pk>/',views.order_delete, name="order_delete"),
 
 ]

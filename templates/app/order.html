@@ -33,7 +33,7 @@
           </div>
           <form action="" method="post">
             {% csrf_token %}
-            <div class="col-10 input-group">
+            <div class="col-10 input-group mt-3">
               <input type="date" class="form-control checkin" name="checkin" value="{{chekin|default_if_none:''}}">
               <input type="date" class="form-control checkout" name="checkout" value="{{chekout|default_if_none:''}}">
               <input type="hidden" name="roomid" value="{{room.id}}">

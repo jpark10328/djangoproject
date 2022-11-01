@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block style %}
   <style>
     .col {
@@ -28,17 +29,17 @@
   <div class="container my-3">
     <!--검색 폼-->
     <div class="row my-3">
-      <div class="col">
-        <h4>목적지</h4>
+      <div class="col text-center">
+        <img src="{% static 'img/mok.png' %}" alt="" width="50">
       </div>
-      <div class="col">
-        <h4>인원 수</h4>
+      <div class="col text-center">
+        <img src="{% static 'img/people.png' %}" alt="" width="50">
       </div>
-      <div class="col">
-        <h4>체크인</h4>
+      <div class="col text-center">
+        <img src="{% static 'img/checkin.png' %}" alt="" width="50">
       </div>
-      <div class="col">
-        <h4>체크아웃</h4>
+      <div class="col text-center">
+        <img src="{% static 'img/checkout.png' %}" alt="" width="50">
       </div>
     </div>
     <div class="row">

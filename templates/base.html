@@ -40,7 +40,9 @@
     <!-- Navigation-->
     <nav class="navbar navbar-expand-lg fixed-top navbar-light">
       <div class="container px-4 px-lg-5">
-        <a class="navbar-brand" href="{% url 'index' %}">현수넷</a>
+        
+        <img src="/static/img/bono.png" alt="보노보노" width="50">
+        <a class="navbar-brand" href="{% url 'index' %}"> 현수넷</a>
         <button
           class="navbar-toggler"
           type="button"
@@ -55,17 +57,17 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarResponsive">
           <ul class="navbar-nav ms-auto py-4 py-lg-0">
-            <li class="nav-item">
-              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'index' %}">홈</a>
+            <li class="nav-item home">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'index' %}"><img src="{% static 'img/home.png' %}" alt="" width="20"></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'hotel_search' %}">숙소검색</a>
+            <li class="nav-item search">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'hotel_search' %}"><img src="{% static 'img/search.png' %}" alt="" width="20"></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'hotel_list' %}">숙소목록</a>
+            <li class="nav-item list">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'hotel_list' %}"><img src="{% static 'img/list.png' %}" alt="" width="20"></a>
             </li>
             {% if request.user.is_authenticated %}
-            <li class="nav-item">
+            <li class="nav-item order">
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'order_result' %}">예약목록</a>
             </li>
             {% endif %}
@@ -97,12 +99,12 @@
       </div>
     </nav>
     <!-- Page Header-->
-    <header class="masthead" style="background-image: url({% static 'img/jeju_bg.jpg' %})">
+    <header class="masthead" style="background-image: url({% static 'img/noul.png' %})">
       <div class="container position-relative px-4 px-lg-5">
         <div class="row gx-4 gx-lg-5 justify-content-center">
           <div class="col-md-10 col-lg-8 col-xl-7">
             <div class="site-heading">
-              <h1>{% block title %}현수넷{% endblock title %}</h1>
+              <img src="/static/img/bono.png" alt="보노보노">
               <span class="subheading"></span>
             </div>
           </div>

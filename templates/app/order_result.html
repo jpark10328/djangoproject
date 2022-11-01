@@ -35,13 +35,12 @@
                 {{order.leave_at}}</h5>
               <span class="card-title">{{order.customer}}</span>
               <p class="card-text">[ 취소를 원할경우 3일내로 취소해주시기 바랍니다. ]</p>
-              <a href="#" class="btn btn-primary">예약취소</a>
+              <a href="{% url 'order_delete' pk=order.id %}" class="btn btn-primary">예약취소</a>
             </div>
           </div>
         </div>
       </div>
     {% endfor %}
   </div>
-{% endfor %}
 </div>
 {% endblock content %}

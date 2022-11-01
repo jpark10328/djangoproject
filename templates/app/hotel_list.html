@@ -1,111 +1,118 @@
-{% extends 'base.html' %}
-{% load static %}
-{% block style %}
-  <style>
-    summary {
-      cursor: pointer;
-    }
+{% extends 'base.html' %} {% load static %} {% block style %}
+<style>
+  summary {
+    cursor: pointer;
+  }
 
-    summary {
-      list-style: none;
-    }
+  summary {
+    list-style: none;
+  }
 
-    summary::-webkit-details-marker {
-      display: none;
-    }
+  summary::-webkit-details-marker {
+    display: none;
+  }
 
-    .box {
-      margin: auto;
-    }
+  .box {
+    margin: auto;
+  }
 
-    .content {
-      width: auto;
-      font-size: 17px;
-      px padding: 5px;
-      border: 1px solid #ddd;
-    }
+  .content {
+    width: auto;
+    font-size: 17px;
+    px padding: 5px;
+    border: 1px solid #ddd;
+  }
 
-    .col-md-4 {
-      width: 350px;
-    }
-  </style>
-{% endblock style %}
-{% block content %}
-  <div class="container">
-    <div class="row mt-5">
-      {% for hotel in hotels %}
-        <div class="card mb-3" style="max-width: 1500px;">
-          <div class="row g-0">
-            <div class="col-md-4">
-              <a href="{% url 'hotel_detail' hotel.pk %}"><img src="/media/{{hotel.himage}}" class="img-fluid rounded-start" alt="..."></a>
+  .col-md-4 {
+    width: 350px;
+  }
+</style>
+{% endblock style %} {% block content %}
+<div class="container">
+  <h1>호텔 목록</h1>
+  <div class="row mt-5">
+    {% for hotel in hotels %}
+    <div class="card mb-3" style="max-width: 1500px">
+      <div class="row g-0">
+        <div class="col-md-4">
+          <a href="{% url 'hotel_detail' hotel.pk %}"
+            ><img src="/media/{{hotel.himage}}" class="img-fluid rounded-start" alt="..."
+          /></a>
+        </div>
+        <div class="col-md-8">
+          <div class="card-body">
+            <h3 class="card-title">
+              <a href="{% url 'hotel_detail' hotel.pk %}">{{hotel.hname}}</a>
+            </h3>
+            <small class="card-text">
+              <svg
+                class="bk-icon -iconset-geo_pin"
+                height="20"
+                role="presentation"
+                width="20"
+                viewbox="0 0 128 128"
+                aria-hidden="true"
+                focusable="false"
+              >
+                <path
+                  d="M98.5 42.5a34.5 34.5 0 1 0-64.3 17.2L64 120l29.8-60.3a34.2 34.2 0 0 0 4.7-17.2zM64 59.7a17.2 17.2 0 1 1 17-17 17.2 17.2 0 0 1-17 17z"
+                ></path>
+              </svg>
+              {{hotel.province}} {{hotel.city}} {{hotel.address_1}}
+              {{hotel.address_2}}</small
+            >
+            <div class="box">
+              <div class="content">{{hotel.hinfo|linebreaks}}</div>
             </div>
-            <div class="col-md-8">
-              <div class="card-body">
-                <h3 class="card-title">
-                  <a href="{% url 'hotel_detail' hotel.pk %}">{{hotel.hname}}</a>
-                </h3>
-                <small class="card-text">
-                  <svg class="bk-icon -iconset-geo_pin" height="20" role="presentation" width="20" viewbox="0 0 128 128" aria-hidden="true" focusable="false">
-                    <path d="M98.5 42.5a34.5 34.5 0 1 0-64.3 17.2L64 120l29.8-60.3a34.2 34.2 0 0 0 4.7-17.2zM64 59.7a17.2 17.2 0 1 1 17-17 17.2 17.2 0 0 1-17 17z"></path>
-                  </svg>
-                  {{hotel.province}}
-                  {{hotel.city}}
-                  {{hotel.address_1}}
-                  {{hotel.address_2}}</small>
-                <div class="box">
-                  <div class="content">
-                    {{hotel.hinfo|linebreaks}}
-                  </div>
-                </div>
-                <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                  <a href="{% url 'hotel_detail' hotel.pk %}" class="btn btn-primary float-right">예약하기</a>
-                </div>
-              </div>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <a
+                href="{% url 'hotel_detail' hotel.pk %}"
+                class="btn btn-primary float-right"
+                >예약하기</a
+              >
             </div>
           </div>
         </div>
-      {% endfor %}
+      </div>
     </div>
+    {% endfor %}
   </div>
-{% endblock content %}
-{% block script %}
-  <script>
-    $(document).ready(function () {
+</div>
+{% endblock content %} {% block script %}
+<script>
+  $(document).ready(function () {
+    $(".box").each(function () {
+      var content = $(this).children(".content");
+      var content_txt = content.text();
+      var content_txt_short = content_txt.substring(0, 100) + "...";
+      var btn_more = $('<a href="javascript:void(0)" class="more">더보기</a>');
 
-      $('.box').each(function () {
-        var content = $(this).children('.content');
-        var content_txt = content.text();
-        var content_txt_short = content_txt.substring(0, 100) + "...";
-        var btn_more = $('<a href="javascript:void(0)" class="more">더보기</a>');
+      $(this).append(btn_more);
 
-        $(this).append(btn_more);
+      if (content_txt.length >= 100) {
+        content.html(content_txt_short);
+      } else {
+        btn_more.hide();
+      }
 
-        if (content_txt.length >= 100) {
-          content.html(content_txt_short)
+      btn_more.click(toggle_content);
+      // 아래 bind가 안 되는 이유는??
+      // btn_more.bind('click',toggle_content);
 
+      function toggle_content() {
+        if ($(this).hasClass("short")) {
+          // 접기 상태
+          $(this).html("더보기");
+          content.html(content_txt_short);
+          $(this).removeClass("short");
         } else {
-          btn_more.hide()
+          // 더보기 상태
+          $(this).html("접기");
+          content.html(content_txt);
+          $(this).addClass("short");
         }
-
-        btn_more.click(toggle_content);
-        // 아래 bind가 안 되는 이유는??
-        // btn_more.bind('click',toggle_content);
-
-        function toggle_content() {
-          if ($(this).hasClass('short')) {
-            // 접기 상태
-            $(this).html('더보기');
-            content.html(content_txt_short)
-            $(this).removeClass('short');
-          } else {
-            // 더보기 상태
-            $(this).html('접기');
-            content.html(content_txt);
-            $(this).addClass('short');
-
-          }
-        }
-      });
+      }
     });
-  </script>
+  });
+</script>
 {% endblock script %}

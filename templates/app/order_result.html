@@ -1,7 +1,18 @@
 {% include 'base_order.html' %}
 {% load static %}
 {% block style %}
-  <style></style>
+  <style>
+    .box {
+      margin: 30px;
+    }
+
+    .content {
+      width: 10;
+      font-size: 25px;
+      px padding: 1px;
+      border: 1px solid #ddd;
+    }
+  </style>
 {% endblock style %}
 {% block content %}
   <div class="card text-center">
@@ -9,15 +20,25 @@
       예약
     </div>
     {% for order in orders %}
-      <div class="card-body">
-        <img src="/media/{{order.room.rimage}}" class="img-fluid w-50" alt="...">
-        <h5 class="card-title">{{order.room.hotel.hname}}</h5>
-        <h5 class="card-title">{{order.room.roomtype}}</h5>
-        <h5 class="card-title">{{order.customer}}</h5>
-        <h5 class="card-title">{{order.visit_at}}</h5>
-        <h5 class="card-title">{{order.leave_at}}</h5>
-        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-        <a href="#" class="btn btn-primary">예약취소</a>
+      <div class="card-body mt-3">
+        <img src="/media/{{order.room.rimage}}" class="img-fluid w-50 mt-3" alt="...">
+        <div class="box">
+          <div class=" content mt-3">
+            {{order.room.hotel.hname}}
+            <div class="card-title">
+              {{order.room.roomtype}}
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">채크인 /
+                {{order.visit_at}}</h5>
+              <h5 class="card-title">채크아웃 /
+                {{order.leave_at}}</h5>
+              <span class="card-title">{{order.customer}}</span>
+              <p class="card-text">[ 취소를 원할경우 3일내로 취소해주시기 바랍니다. ]</p>
+              <a href="#" class="btn btn-primary">예약취소</a>
+            </div>
+          </div>
+        </div>
       </div>
     {% endfor %}
   </div>

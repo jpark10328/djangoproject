@@ -191,18 +191,12 @@ def hotel_search(request):
     checkin = request.GET.get('checkin',timezone.localdate())
     checkout = request.GET.get('checkout',timezone.localdate())
     roomcap = request.GET.get('roomcap','1')
-    # print(checkin)
-    # print(checkout)
-    # print("&*&*&*")
 
     # 사용자가 요청한 페이지 값 가져오기
     page = request.GET.get("page", 1)
 
     # 사용자가 입력한 정렬기준 가져오기
     so = request.GET.get('so','recent')
-
-    # print("-------------")
-    # print(keyword,page, so)
 
     if so == "recommend":
         hotel_lists = Hotel.objects.annotate(num_voter = Count('voter')).order_by('-num_voter')
@@ -213,11 +207,8 @@ def hotel_search(request):
         hotel_lists = Hotel.objects.order_by("-id")
 
 
-    # hotel_lists 에서 id만 추출 => 리스트로 생성
-
-    
+    # hotel_lists 에서 id만 추출 => 리스트로 생성    
         # print(room.roomtype)
-
     # filter(user__id__in = lookup_user_ids)
 
     # 검색결과 리스트 추출

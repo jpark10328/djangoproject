@@ -1,22 +1,48 @@
 {% extends 'base.html' %}
+{% load static %}
+{% block style %}
+  <style>
+    .col {
+      width: 800px;
+      margin: 0 auto;
+      padding: 10px 15px;
+    }
+
+    .btn {
+      width: 300px;
+      margin: 10px;
+      padding: 10px 15px;
+    }
+
+    .card {
+      width: 800px;
+      margin: 0 auto;
+      padding: 10px 15px;
+    }
+
+    .mt-5 {
+      width: 700px;
+    }
+  </style>
+{% endblock style %}
 {% block content %}
   <div class="container my-3">
     <!--검색 폼-->
     <div class="row my-3">
-      <div class="col">
-        <h4>목적지</h4>
+      <div class="col text-center">
+        <img src="{% static 'img/mok.png' %}" alt="" width="50">
       </div>
-      <div class="col">
-        <h4>인원 수</h4>
+      <div class="col text-center">
+        <img src="{% static 'img/people.png' %}" alt="" width="50">
       </div>
-      <div class="col">
-        <h4>체크인</h4>
+      <div class="col text-center">
+        <img src="{% static 'img/checkin.png' %}" alt="" width="50">
       </div>
-      <div class="col">
-        <h4>체크아웃</h4>
+      <div class="col text-center">
+        <img src="{% static 'img/checkout.png' %}" alt="" width="50">
       </div>
     </div>
-    <div class="row ">
+    <div class="row">
       <div class="col">
         <input type="text" class="form-control keyword" value="{{keyword|default_if_none:''}}" placeholder="지역/숙소명 검색">
       </div>
@@ -47,6 +73,9 @@
       <input type="hidden" name="checkout" value="{{checkout}}" id="checkout">
       <input type="hidden" name="roomcap" value="{{roomcap}}" id="roomcap">
     </form>
+    <div class="card mt-5">
+      <video src="media/Bluemoon.mp4" controls="controls" loop="loop" autoplay="autoplay" volum="5">이 브라우저는 재생할 수 없습니다.</video>
+    </div>
   </div>
 {% endblock content %}
 {% block script %}

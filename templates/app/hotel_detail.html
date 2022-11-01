@@ -144,10 +144,12 @@
               <div class="col-md-4 mt-5">
                 <img src="/media/{{room.rimage}}" class="img-fluid rounded-start" alt="...">
               </div>
-              <div class="col-md-8">
-                <div class="card-body text-dark">
-                  <h5 class="card-title">{{room.roomtype|linebreaks}}</h5>
-                  <p class="card-text">{{room.rcontent|linebreaks}}</p>
+              <div class="col mt-5">
+                <h5 class="card-title md-4">{{room.roomtype|linebreaks}}</h5>
+                <div class="box md-4">
+                  <div class="card-body card2 text-dark">
+                    <p class="card-text">{{room.rcontent|linebreaks}}</p>
+                  </div>
                 </div>
                 <div style="text-align:right;" class="col">
                   <dl>
@@ -331,6 +333,43 @@
 
         })
 
-      })
+      });
+      $(document).ready(function () {
+
+        $('.box').each(function () {
+          var content = $(this).children('.card2');
+          var content_txt = content.text();
+          var content_txt_short = content_txt.substring(0, 100) + "...";
+          var btn_more = $('<a href="javascript:void(0)" class="more">더보기</a>');
+
+          $(this).append(btn_more);
+
+          if (content_txt.length >= 100) {
+            content.html(content_txt_short)
+
+          } else {
+            btn_more.hide()
+          }
+
+          btn_more.click(toggle_content);
+          // 아래 bind가 안 되는 이유는??
+          // btn_more.bind('click',toggle_content);
+
+          function toggle_content() {
+            if ($(this).hasClass('short')) {
+              // 접기 상태
+              $(this).html('더보기');
+              content.html(content_txt_short)
+              $(this).removeClass('short');
+            } else {
+              // 더보기 상태
+              $(this).html('접기');
+              content.html(content_txt);
+              $(this).addClass('short');
+
+            }
+          }
+        });
+      });
     </script>
   {% endblock script %}

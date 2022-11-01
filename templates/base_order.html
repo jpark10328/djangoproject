@@ -57,11 +57,11 @@
           <ul class="navbar-nav ms-auto py-4 py-lg-0">
             <li class="nav-item">
               <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'index' %}"
-                >홈</a
+                ><img src="{% static 'img/home.png' %}" alt="" width="20"></a
               >
             </li>
-            <li class="nav-item">
-              <a class="nav-link px-lg-3 py-3 py-lg-4" href=""></a>
+            <li class="nav-item search">
+              <a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'hotel_search' %}"><img src="{% static 'img/search.png' %}" alt="" width="20"></a>
             </li>
             <li class="nav-item">
               <!-- 현재 로그인 사용자 : request.user -->

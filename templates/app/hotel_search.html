@@ -32,7 +32,7 @@
 {% endblock style %}
 {% block content %}
 <div class="container my-3">
-  <h1>호텔 목록</h1>
+  <h1>호텔 검색</h1>
   <!--검색 폼-->
   <div class="row my-3">
     <div class="col-2">
@@ -42,7 +42,7 @@
       </select>
     </div>
     <div class="col-10 input-group">
-      <input type="text" class="form-control keyword" value="{{keyword|default_if_none:''}}">
+      <input type="text" class="form-control keyword" value="{{keyword|default_if_none:''}}" placeholder="호텔명/지역 입력">
       <select class="form-control roomcap">
         <option value="1"  selected>1명</option>
         <option value="2">2명</option>
